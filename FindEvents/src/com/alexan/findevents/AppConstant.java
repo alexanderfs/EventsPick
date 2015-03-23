@@ -4,5 +4,6 @@ public class AppConstant {
 	public static final String DATABASE_NAME = "findevents_db";
 	public static String localStorage = "";
 	public static String folderName = "/findevents";
+	public static String localFolder = "eventsPick";
 	
 }
