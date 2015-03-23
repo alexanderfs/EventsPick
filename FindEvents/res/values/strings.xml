@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <drawable name="clr_normal">#ff6501</drawable>
+ 	<drawable name="clr_pressed">#a44100</drawable>
+    <string name="app_name">FindEvents</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+	<string name="event_desc">
+        “草莓音乐节”是国内音乐厂牌摩登天空继“摩登天空音乐节”之后，于2009年创办的另一音乐节品牌，
+            比之“摩登天空音乐节”，“草莓”的气质更为多元，更具有春天、浪漫、爱的特质。摩登天空老板沈黎晖表示：
+            “2010年的‘草莓音乐节’将超过去年，将创造国内音乐节领域的多项纪录。”2011年，草莓音乐节走进武汉，
+            于10月29、30日，在位于沌口的武汉体育中心举行。2013年草莓音乐节如约回归，将于4月29、30日、5月
+            1日在北京通州运河公园、上海世博公园同期举行。
+    </string>
+</resources>

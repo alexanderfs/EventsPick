@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <!-- <RelativeLayout
+        android:id="@+id/act_eventsearch_rl"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#ff34A5EE" >
+
+        <Button
+            android:id="@+id/act_eventsearch_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="#ff34A5EE"
+            android:gravity="right|center_vertical"
+            android:paddingRight="15dp"
+            android:text="返回"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/act_eventsearch_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="搜索"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/white" />
+
+        <Spinner
+            android:id="@+id/act_eventsearch_sp"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:background="#ff34A5EE" />
+        
+    </RelativeLayout> -->
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+        <EditText 
+            android:id="@+id/act_eventsearch_keyword"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="按关键字搜索活动"/>
+        <Button 
+            android:id="@+id/act_eventsearch_advance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="高级搜索"/>
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:id="@+id/act_eventsearch_advcontent"
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView 
+                android:text="场所："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+            <EditText 
+                android:id="@+id/act_eventsearch_spots"
+                android:layout_height="40dp"
+                android:layout_width="match_parent"
+                android:hint="请输入地点" />
+        </LinearLayout>
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+            <TextView 
+                android:text="时间："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+            <RadioGroup 
+                android:id="@+id/act_eventsearch_timerg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RadioButton 
+                    android:id="@+id/act_eventsearch_timerb1"
+                    android:text="全部活动"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <RadioButton 
+                    android:id="@+id/act_eventsearch_timerb2"
+                    android:text="今日精彩"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <RadioButton 
+                    android:id="@+id/act_eventsearch_timerb3"
+                    android:text="明日预告"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RadioGroup>
+        </LinearLayout>
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView 
+                android:text="类型："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+            <GridView 
+                android:id="@+id/act_eventsearch_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:numColumns="auto_fit"
+                android:columnWidth="80dp">
+            </GridView>
+            
+        </LinearLayout>
+        
+    </LinearLayout>
+    
+        <Button 
+            android:id="@+id/act_eventsearch_submit"
+            android:layout_margin="10dp"
+            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:text="搜索"/>
+
+</LinearLayout>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.alexan.findevents"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="19" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />  
+	<uses-permission android:name="android.permission.USE_CREDENTIALS" />  
+	<uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />  
+	<uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />  
+	<uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />  
+	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />  
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />  
+	<uses-permission android:name="android.permission.BROADCAST_STICKY" />  
+	<uses-permission android:name="android.permission.WRITE_SETTINGS" />  
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	
+    <application
+        android:name=".FindEventsApp"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="GfzQy1lRnfScGRUOTWFGPE5B" />
+        
+        <activity
+            android:name="com.alexan.findevents.StartupActivity"
+            android:theme="@android:style/Theme.NoDisplay"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.alexan.findevents.LaunchActivity"></activity>
+        <activity android:name="com.alexan.findevents.WelcomeActivity"></activity>
+        <activity android:name="com.alexan.findevents.LoginActivity"></activity>
+        <activity android:name="com.alexan.findevents.RegisterActivity"></activity>
+        <activity android:name="com.alexan.findevents.FrameworkActivity"
+            android:launchMode="singleTop"></activity>
+        <activity android:name="com.alexan.findevents.PickSpotActivity"></activity>
+        <activity android:name="com.alexan.findevents.event.EventDetailActivity"></activity>
+        <activity android:name="com.alexan.findevents.event.EventSearchActivity"></activity>
+        <activity android:name="com.alexan.findevents.event.PublishEventActivity"></activity>
+        <activity android:name="com.alexan.findevents.event.EventEditActivity"></activity>
+        <activity android:name="com.alexan.findevents.event.SearchResultActivity"></activity>
+        <activity android:name="com.alexan.findevents.event.PickAddrActivity"></activity>
+        <activity android:name="com.alexan.findevents.event.ShowAddrActivity"></activity>
+        
+        <activity android:name="com.alexan.findevents.event.PickGroupActivity"></activity>
+        <activity android:name="com.alexan.findevents.event.EventCommentActivity"></activity>
+        <activity android:name="com.alexan.findevents.event.EventReportActivity"></activity>
+
+        <activity android:name="com.alexan.findevents.friend.CircleAddActivity"></activity>
+        <activity android:name="com.alexan.findevents.friend.CircleListActivity"></activity>
+        <activity android:name="com.alexan.findevents.friend.FriendAddActivity"></activity>
+        <activity android:name="com.alexan.findevents.friend.FriendInfoActivity"></activity>
+        <activity android:name="com.alexan.findevents.friend.FriendMainPageActivity"></activity>
+        <activity android:name="com.alexan.findevents.friend.GroupListActivity"></activity>
+        <activity android:name="com.alexan.findevents.friend.ContactListActivity"></activity>
+
+        <activity android:name="com.alexan.findevents.me.HistoryViewActivity"></activity>
+        <activity android:name="com.alexan.findevents.me.MeMainPageActivity"></activity>
+        <activity android:name="com.alexan.findevents.me.MyCollectionActivity"></activity>
+        <activity android:name="com.alexan.findevents.me.MyCommentActivity"></activity>
+        <activity android:name="com.alexan.findevents.me.MyShareActivity"></activity>
+        <activity android:name="com.alexan.findevents.me.PublishListActivity"></activity>
+        <activity android:name="com.alexan.findevents.me.SpotListActivity"></activity>
+        <activity android:name="com.alexan.findevents.me.SpotAddActivity"></activity>
+        <activity android:name="com.alexan.findevents.me.SpotInfoActivity"></activity>
+        <activity android:name="com.alexan.findevents.me.GroupAddActivity"></activity>
+        <activity android:name="com.alexan.findevents.me.GroupInfoActivity"></activity>
+        <activity android:name="com.alexan.findevents.me.GroupEditActivity"></activity>
+
+        <activity android:name="com.alexan.findevents.settings.AboutUsActivity"></activity>
+        <activity android:name="com.alexan.findevents.settings.AccountAttachActivity"></activity>
+        <activity android:name="com.alexan.findevents.settings.AccountInfoActivity"></activity>
+        <activity android:name="com.alexan.findevents.settings.FeedbackActivity"></activity>
+        <activity android:name="com.alexan.findevents.settings.LanguageSettingActivity"></activity>
+        <activity android:name="com.alexan.findevents.settings.NotifySettingActivity"></activity>
+        <activity android:name="com.alexan.findevents.settings.PrivacySettingActivity"></activity>
+        <activity android:name="com.alexan.findevents.settings.SafeSettingActivity"></activity>
+        <activity android:name="com.alexan.findevents.settings.SettingsActivity"></activity>
+        <!-- Created By Cui -->
+        <receiver
+            android:name="com.tencent.sample.AppRegister"
+            android:permission="com.tencent.mm.plugin.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.tencent.open.yyb.AppbarActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name="com.tencent.connect.avatar.ImageActivity" />
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity
+            android:name=".ReturnActivity" >
+        </activity>
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent222222" />
+ 				<!-- 100380359 100381104 222222 -->
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+     <item 
+        android:id="@+id/action_framework_search"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_action_search"
+        android:title="Search events"/>
+    <item 
+        android:id="@+id/action_framework_add"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_action_new"
+        android:title="Add events"/>
+
+</menu>

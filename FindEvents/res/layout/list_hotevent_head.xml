@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_event_head"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/list_hotevent_head_title"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:background="#aa94c4c6"
+        android:gravity="center"
+        android:text="DEFAULT TITLE"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginTop="8dp" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/list_hotevent_head_image"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginBottom="4dp"
+        android:src="#aaa" />
+
+    <TextView
+        android:id="@+id/list_hotevent_head_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
+        android:text="Time: DEFAULT TIME SPAN"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/list_hotevent_head_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
+        android:text="Addr: DEFAULT ADDRESS"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/list_hotevent_head_extra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
+        android:textSize="12sp" />
+
+</LinearLayout>

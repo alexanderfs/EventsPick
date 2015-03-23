@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:drawableTop="#aaa"
+                    android:gravity="center_horizontal"
+                    android:text="基本" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="4dp" >
+
+                    <EditText
+                        android:id="@+id/act_publishevent_etitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:hint="请输入标题"
+                        android:padding="4dp"
+                        android:singleLine="true"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/act_publishevent_edesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="请输入活动简介"
+                        android:minHeight="48dp"
+                        android:padding="4dp"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:text="请选择类型"
+                        android:textSize="14sp" />
+
+                    <com.alexan.findevents.view.GridViewForScroll
+                        android:id="@+id/act_publishevent_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnWidth="80dp"
+                        android:numColumns="auto_fit" >
+                    </com.alexan.findevents.view.GridViewForScroll>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:drawableTop="#aaa"
+                    android:text="地点" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="4dp" >
+                    <Button 
+                        android:id="@+id/act_publishevent_pickaddrbtn"
+                        android:text="点击选择活动地点"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:padding="4dp"/>
+                    <TextView 
+                        android:id="@+id/act_publishevent_addresstitle"
+                        android:text="请选择活动地点"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"/>
+                    <TextView 
+                        android:id="@+id/act_publishevent_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp" />
+
+                    <!-- <EditText
+                        android:id="@+id/act_publishevent_addresstitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:hint="请输入活动地点名称"
+                        android:padding="4dp"
+                        android:textSize="14sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:orientation="horizontal" >
+
+                        <Spinner
+                            android:id="@+id/act_publishevent_province"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <Spinner
+                            android:id="@+id/act_publishevent_city"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <Spinner
+                            android:id="@+id/act_publishevent_district"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/act_publishevent_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:hint="请输入详细地址"
+                        android:padding="4dp"
+                        android:textSize="14sp" /> -->
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:drawableTop="#aaa"
+                    android:text="时间" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="4dp" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:text="起止日期" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <Button
+                            android:id="@+id/act_publishevent_startdate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:layout_marginRight="10dp"
+                            android:text="开始日期" />
+                        <Button
+                            android:id="@+id/act_publishevent_enddate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:text="结束日期" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:text="起止时间" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <Button
+                            android:id="@+id/act_publishevent_starttime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:layout_marginRight="10dp"
+                            android:text="开始时间" />
+                        <Button
+                            android:id="@+id/act_publishevent_endtime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:text="结束时间" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:drawableTop="#aaa"
+                    android:text="图片" />
+
+                <com.alexan.findevents.view.GridViewForScroll
+                    android:id="@+id/act_publishevent_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:columnWidth="80dp"
+                    android:numColumns="auto_fit" >
+                </com.alexan.findevents.view.GridViewForScroll>
+            </LinearLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:padding="4dp"
+                android:id="@+id/act_publishevent_pub1"
+                android:background="@drawable/publish_button_selector"
+                android:textColor="#fff"
+                android:textSize="14sp" >
+            </Button>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
