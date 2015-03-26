@@ -19,18 +19,25 @@ import com.alexan.findevents.dao.DBCategory;
 public class CategoryCBAdapter extends BaseAdapter {
 	
 	private Activity mCtx;
-	private List<DBCategory> caList, categorySet;
+	private List<String> categorySet;
+	private List<String> caList = new ArrayList<String>();
+	
 	private CategorySelectListener mcsl;
 
-	public CategoryCBAdapter(Activity ctx, CategorySelectListener csl, List<DBCategory> categorySet) {
+	public CategoryCBAdapter(Activity ctx, CategorySelectListener csl, List<String> categorySet) {
 		this.mCtx = ctx;
 		this.mcsl = csl;
         this.categorySet = categorySet;
-		caList = DBHelper.getInstance(mCtx).getCategoryDao().loadAll();
+        String[] catagorys = mCtx.getResources().getStringArray(R.array.category);
+    	for(String st:catagorys){
+    		caList.add(st);
+    	}
+    	caList.remove(0);
+		/*caList = DBHelper.getInstance(mCtx).getCategoryDao().loadAll();
 		caList.remove(0);
 		if(caList == null) {
 			caList = new ArrayList<DBCategory>();
-		}
+		}*/
 		//System.out.println("asdlfjasd");
 	}
 	
@@ -57,7 +64,7 @@ public class CategoryCBAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		convertView = mCtx.getLayoutInflater().inflate(R.layout.grid_checkbox_item, null);
 		CheckBox cb = (CheckBox) convertView.findViewById(R.id.grid_checkbox);
-		cb.setText(caList.get(position).getName());
+		cb.setText(caList.get(position));
         if(categorySet!=null){
             if(categorySet.contains(caList.get(position))){
                 cb.setChecked(true);

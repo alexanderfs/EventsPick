@@ -57,10 +57,8 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.alexan.findevents.AppConstant;
 import com.alexan.findevents.R;
-import com.alexan.findevents.dao.DBCategory;
 import com.alexan.findevents.dao.DBCity;
 import com.alexan.findevents.dao.DBComment;
-import com.alexan.findevents.dao.DBDistrict;
 import com.alexan.findevents.dao.DBEvent;
 import com.alexan.findevents.dao.DBEventCategory;
 import com.alexan.findevents.dao.DBEventCategoryDao.Properties;
@@ -99,7 +97,7 @@ public class EventEditActivity extends SherlockActivity {
 
     private DBLocation selectLo ;
 
-    private List<DBCategory> categorySet = new ArrayList<DBCategory>();
+    private List<String> categorySet = new ArrayList<String>();
     private int year;
     private int month;
     private int dayofmonth;
@@ -113,8 +111,8 @@ public class EventEditActivity extends SherlockActivity {
     private int minute2;
 
     private List<DBProvince> provinceList = new ArrayList<DBProvince>();
-    private List<DBCity> cityList = new ArrayList<DBCity>();
-    private List<DBDistrict> districtList = new ArrayList<DBDistrict>();
+    private List<DBCity> cityList = new ArrayList<DBCity>();/*
+    private List<DBDistrict> districtList = new ArrayList<DBDistrict>();*/
 
 //    private ProvinceAdapter pad = new ProvinceAdapter();
 //    private CityAdapter cad = new CityAdapter();
@@ -173,9 +171,9 @@ public class EventEditActivity extends SherlockActivity {
         minute2 = edc.get(Calendar.MINUTE);
         
         categorySet.clear();
-        for(DBEventCategory ec : currEvent.getCategories()){
+       /* for(DBEventCategory ec : currEvent.getCategories()){
             categorySet.add(ec.getDBCategory());
-        }
+        }*/
         //actionbar的设置
         eventPhotos.clear();
         bdPhotos.clear();
@@ -352,7 +350,7 @@ public class EventEditActivity extends SherlockActivity {
     private class CategoryRecorder implements CategorySelectListener {
 
         @Override
-        public void setSelectedCategory(DBCategory category, boolean checked) {
+        public void setSelectedCategory(String category, boolean checked) {
             // TODO Auto-generated method stub
             if(checked) {
                 categorySet.add(category);
@@ -464,7 +462,7 @@ public class EventEditActivity extends SherlockActivity {
         currEvent.setAddress(selectLo.getAddrName());
         currEvent.setAddressdetail(selectLo.getAddrDetail());
         currEvent.setCity(selectLo.getAddrCity());
-        currEvent.setDistrict(selectLo.getAddrDistrict());
+   //     currEvent.setDistrict(selectLo.getAddrDistrict());
 
         currEvent.setStarttime(new GregorianCalendar(year, month, dayofmonth, hour, minute).getTime().getTime());
         currEvent.setEndtime(new GregorianCalendar(year2, month2, dayofmonth2, hour2, minute2).getTime().getTime());
@@ -474,13 +472,13 @@ public class EventEditActivity extends SherlockActivity {
 
         DBHelper.getInstance(this).getEventDao().update(currEvent);
         
-        for(DBCategory ca: categorySet) {
+    /*    for(DBCategory ca: categorySet) {
             DBEventCategory ec = new DBEventCategory();
             ec.setEventID(eventID);
             ec.setCategoryID(ca.getId());
             ec.setTimestamp(Calendar.getInstance().getTimeInMillis());
             DBHelper.getInstance(this).getEventCategoryDao().insert(ec);
-        }
+        }*/
         
         currEvent.resetCategories();
         

@@ -3,6 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+    <Spinner
+        android:id="@+id/add_province"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/province"
+        android:prompt="@string/pickp"/>
+    <Spinner
+        android:id="@+id/add_city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/pickc"/>
     <EditText 
         android:id="@+id/dlg_addloc_addr"
         android:layout_width="match_parent"
@@ -16,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:hint="在此键入详细地址"/>
-    <EditText 
+<!--     <EditText 
         android:id="@+id/dlg_addloc_addrcity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,6 +38,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:hint="在此键入所在区县"/>
+        android:hint="在此键入所在区县"/> -->
 
 </LinearLayout>

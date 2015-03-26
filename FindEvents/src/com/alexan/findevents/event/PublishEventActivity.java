@@ -1,23 +1,12 @@
 package com.alexan.findevents.event;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.HttpConnectionParams;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
@@ -32,7 +21,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -59,29 +47,16 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.alexan.findevents.AppConstant;
-import com.alexan.findevents.FrameworkActivity;
-import com.alexan.findevents.LoginActivity;
-import com.alexan.findevents.PersonalFragment;
 import com.alexan.findevents.R;
-import com.alexan.findevents.StartupActivity;
 import com.alexan.findevents.crj.Util;
 import com.alexan.findevents.dao.DBCategory;
-import com.alexan.findevents.dao.DBCity;
-import com.alexan.findevents.dao.DBComment;
-import com.alexan.findevents.dao.DBDistrict;
 import com.alexan.findevents.dao.DBEvent;
 import com.alexan.findevents.dao.DBEventCategory;
 import com.alexan.findevents.dao.DBImage;
 import com.alexan.findevents.dao.DBLocation;
-import com.alexan.findevents.dao.DBPerson;
-import com.alexan.findevents.dao.DBPersonDao;
-import com.alexan.findevents.dao.DBProvince;
-import com.alexan.findevents.dao.DBUser;
 import com.alexan.findevents.util.DBHelper;
 import com.alexan.findevents.util.DensityUtil;
 import com.alexan.findevents.util.ImageUtil;
-
-import de.greenrobot.dao.query.QueryBuilder;
 
 public class PublishEventActivity extends SherlockActivity {
 
@@ -111,7 +86,8 @@ public class PublishEventActivity extends SherlockActivity {
     private long userID;
     private String url = "http://123.57.45.183/event/PostEvent";
 
-    private List<DBCategory> categorySet = new ArrayList<DBCategory>();
+   // private List<DBCategory> categorySet = new ArrayList<DBCategory>();
+    private List<String> categorySet = new ArrayList<String>();
     private Calendar c = Calendar.getInstance();
     private int year = c.get(Calendar.YEAR);
     private int month = c.get(Calendar.MONTH);
@@ -124,10 +100,6 @@ public class PublishEventActivity extends SherlockActivity {
     private int dayofmonth2 = c.get(Calendar.DAY_OF_MONTH);
     private int hour2 = c.get(Calendar.HOUR_OF_DAY);
     private int minute2 = c.get(Calendar.MINUTE);
-
-    private List<DBProvince> provinceList = new ArrayList<DBProvince>();
-    private List<DBCity> cityList = new ArrayList<DBCity>();
-    private List<DBDistrict> districtList = new ArrayList<DBDistrict>();
 
     Handler mHandler=new Handler(){  
         @Override  
@@ -165,10 +137,6 @@ public class PublishEventActivity extends SherlockActivity {
 			super.handleMessage(msg); 
         }         
     };
-    
-//    private ProvinceAdapter pad = new ProvinceAdapter();
-//    private CityAdapter cad = new CityAdapter();
-//    private DistrictAdapter dad = new DistrictAdapter();
 
     private DBLocation selectLo = new DBLocation();
     private long locationID;
@@ -196,7 +164,7 @@ public class PublishEventActivity extends SherlockActivity {
     private class CategoryRecorder implements CategorySelectListener {
 
         @Override
-        public void setSelectedCategory(DBCategory category, boolean checked) {
+        public void setSelectedCategory(String category, boolean checked) {
             // TODO Auto-generated method stub
             if(checked) {
                 categorySet.add(category);
@@ -207,7 +175,35 @@ public class PublishEventActivity extends SherlockActivity {
 
     }
 
-
+    private int GetCatagoryId(List<String> categorySet){
+    	for(String cate:categorySet){
+    		switch (cate){
+    		case "展会":
+    			return 1009;
+    		case "文娱":
+    			return 1012;
+    		case "体育":
+    			return 1010;
+    		case "商业":
+    			return 1013;
+    		case "医药":
+    			return 1011;
+    		case "科技":
+    			return 1014;
+    		case "亲子":
+    			return 1005;
+    		case "风俗":
+    			return 1017;
+    		case "文教":
+    			return 1001;
+    		case "其他":
+    			return 1016;
+    		default:
+    			return 0;	
+    		}
+    	}
+    	return 0;
+    }
 
     @SuppressLint("ResourceAsColor")
 	private void initView() {
@@ -249,11 +245,11 @@ public class PublishEventActivity extends SherlockActivity {
                 new TimePickerDialog(PublishEventActivity.this,
                         new OnTimeSetListener() {
                             @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minuteofDay) {
                                 // TODO Auto-generated method stub
-                                vStartTime.setText("" + hourOfDay + " : " + minute);
+                                vStartTime.setText("" + hourOfDay + " : " + minuteofDay);
                                 hour = hourOfDay;
-                                PublishEventActivity.this.minute = minute;
+                                minute = minuteofDay;
                             }
                         }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true).show();
             }
@@ -292,11 +288,11 @@ public class PublishEventActivity extends SherlockActivity {
                 new TimePickerDialog(PublishEventActivity.this,
                         new OnTimeSetListener() {
                             @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minuteofDay) {
                                 // TODO Auto-generated method stub
-                                vEndTime.setText("" + hourOfDay + " : " + minute);
+                                vEndTime.setText("" + hourOfDay + " : " + minuteofDay);
                                 hour2 = hourOfDay;
-                                PublishEventActivity.this.minute2 = minute;
+                                minute2 = minuteofDay;
                             }
                         }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true).show();
             }
@@ -386,12 +382,11 @@ public class PublishEventActivity extends SherlockActivity {
     }
 
     private void getStoreEvent() {
-
     	currEvent.setLocationID(locationID);
         currEvent.setAddress(selectLo.getAddrName());
         currEvent.setAddressdetail(selectLo.getAddrDetail());
         currEvent.setCity(selectLo.getAddrCity());
-        currEvent.setDistrict(selectLo.getAddrDistrict());
+       // currEvent.setDistrict(selectLo.getAddrDistrict());
         currEvent.setStarttime(new GregorianCalendar(year, month, dayofmonth, hour, minute).getTime().getTime());
         currEvent.setEndtime(new GregorianCalendar(year2, month2, dayofmonth2, hour2, minute2).getTime().getTime());
         currEvent.setTimestamp(System.currentTimeMillis());
@@ -400,20 +395,20 @@ public class PublishEventActivity extends SherlockActivity {
 				.where(DBPersonDao.Properties.Nickname.eq(currUser));
 		
 		DBPerson p = qbp.list().get(0);*/
+        month = month+1;
+        month2 = month2+1;
+        final String starttime = hour+":"+minute+":00";
+        final String endtime = hour2+":"+minute2+":00";
+        final String startday = year+"-"+month+"-"+dayofmonth;
+        final String endday = year2+"-"+month2+"-"+dayofmonth2;
         userID = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getLong("curr_user_id", 0);
+        final int cateId = GetCatagoryId(categorySet);
         //String currUser =  PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("curr_user", "none");
         currEvent.setUserID(userID);
 
         currEvent.setVisibility(visible);
 
         long eventID = DBHelper.getInstance(this).getEventDao().insert(currEvent);
-        for(DBCategory ca: categorySet) {
-            DBEventCategory ec = new DBEventCategory();
-            ec.setEventID(eventID);
-            ec.setDBCategory(ca);
-            ec.setTimestamp(Calendar.getInstance().getTimeInMillis());
-            DBHelper.getInstance(this).getEventCategoryDao().insert(ec);
-        }
 
         for(DBImage img: bdPhotos) {
             img.setEventID(eventID);
@@ -421,12 +416,12 @@ public class PublishEventActivity extends SherlockActivity {
         }
         
         new Thread(new Runnable() {
-
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
 				String params = "UserId="+userID+"&EventTitle="+vTitle.getText().toString()+
-						"&EventDescription="+vDesc.getText().toString();
+						"&EventDescription="+vDesc.getText().toString()+"&EventStartDate="+startday+"&EventEndDate="+endday+"&EventStartTime="+starttime+"&EventEndTime="+endtime
+						+"&EventCategoryId="+cateId+"&EventVenueId="+locationID;
 				String result = Util.httpPost(url, params);
 				Message message = new Message();
 				Bundle bundle = new Bundle();

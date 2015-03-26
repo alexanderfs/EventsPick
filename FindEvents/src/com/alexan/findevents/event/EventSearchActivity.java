@@ -137,8 +137,8 @@ public class EventSearchActivity extends SherlockActivity {
 					if(categorySet.size() > 0) {
 						String[] categoryArray = new String[categorySet.size()];
 						int i = 0;
-						for(DBCategory c: categorySet) {
-							categoryArray[i++] = c.getName();
+						for(String c: categorySet) {
+							categoryArray[i++] = c;
 						}
 						b.putStringArray("category", categoryArray);
 					}
@@ -164,7 +164,7 @@ public class EventSearchActivity extends SherlockActivity {
 	private class CategoryRecorder implements CategorySelectListener {
 
 		@Override
-		public void setSelectedCategory(DBCategory category, boolean checked) {
+		public void setSelectedCategory(String category, boolean checked) {
 			// TODO Auto-generated method stub
 			if(checked) {
 				categorySet.add(category);
@@ -175,6 +175,6 @@ public class EventSearchActivity extends SherlockActivity {
 		
 	}
 	
-	private HashSet<DBCategory> categorySet = new HashSet<DBCategory>();
+	private HashSet<String> categorySet = new HashSet<String>();
 
 }

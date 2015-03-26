@@ -73,7 +73,7 @@ public class RealtimeFragment extends Fragment {
 			// TODO Auto-generated method stub
 			pickList = DBHelper.getInstance(getActivity()).getPickEventDao().queryBuilder().where(DBPickEventDao.Properties.City.eq(currCity)).list();
 			System.out.print(pickList.toString());
-			PickListAdapter hea = new PickListAdapter(getActivity(), pickList);
+			PickListAdapter hea = new PickListAdapter(getActivity(), pickList,vList);
 			vList.setAdapter(hea);
 			super.handleMessage(msg);
 		}
@@ -222,7 +222,7 @@ public class RealtimeFragment extends Fragment {
 		}
 		
 		if(sp3 != 0) {
-			qbEvent.where(DBPickEventDao.Properties.District.eq(districtArray[sp3]));
+		//	qbEvent.where(DBPickEventDao.Properties.District.eq(districtArray[sp3]));
 		}
 		
 		if(sp2 != 0) {
@@ -252,7 +252,7 @@ public class RealtimeFragment extends Fragment {
 			currEventList = qbEvent.list();
 		}
 		
-		hea = new PickListAdapter(getActivity(), currEventList);
+		hea = new PickListAdapter(getActivity(), currEventList,vList);
 		vList.setAdapter(hea);
 		
 		vList.setOnItemClickListener(new OnItemClickListener() {

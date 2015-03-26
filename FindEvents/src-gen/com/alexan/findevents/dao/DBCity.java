@@ -1,6 +1,5 @@
 package com.alexan.findevents.dao;
 
-import java.util.List;
 import com.alexan.findevents.dao.DaoSession;
 import de.greenrobot.dao.DaoException;
 
@@ -25,7 +24,6 @@ public class DBCity {
     private DBProvince dBProvince;
     private Long dBProvince__resolvedKey;
 
-    private List<DBDistrict> cityDis;
 
     public DBCity() {
     }
@@ -107,28 +105,6 @@ public class DBCity {
             province_id = dBProvince.getId();
             dBProvince__resolvedKey = province_id;
         }
-    }
-
-    /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
-    public List<DBDistrict> getCityDis() {
-        if (cityDis == null) {
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            DBDistrictDao targetDao = daoSession.getDBDistrictDao();
-            List<DBDistrict> cityDisNew = targetDao._queryDBCity_CityDis(id);
-            synchronized (this) {
-                if(cityDis == null) {
-                    cityDis = cityDisNew;
-                }
-            }
-        }
-        return cityDis;
-    }
-
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    public synchronized void resetCityDis() {
-        cityDis = null;
     }
 
     /** Convenient call for {@link AbstractDao#delete(Object)}. Entity must attached to an entity context. */

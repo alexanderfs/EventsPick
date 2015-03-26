@@ -135,8 +135,9 @@ public class ExampleDaoGenerator {
     	pickEvent.addStringProperty("address");
     	pickEvent.addStringProperty("province");
     	pickEvent.addStringProperty("city");
-    	pickEvent.addStringProperty("district");
     	pickEvent.addStringProperty("addressdetail");
+    	
+    	pickEvent.addStringProperty("photo");
     	
     	pickEvent.addStringProperty("startt");
     	pickEvent.addStringProperty("endt");
@@ -217,9 +218,8 @@ public class ExampleDaoGenerator {
     	location.addIdProperty();
     	location.addStringProperty("addrName");
     	location.addStringProperty("addrDetail");
-    	location.addStringProperty("addrProvince");
     	location.addStringProperty("addrCity");
-    	location.addStringProperty("addrDistrict");
+    	location.addStringProperty("addrProvince");
     	location.addLongProperty("timestamp");
     	
     	
@@ -238,15 +238,6 @@ public class ExampleDaoGenerator {
     	ToMany proCities = province.addToMany(city, proId);
     	proCities.setName("proCities");
     	
-    	Entity district = schema.addEntity("DBDistrict");
-    	district.addIdProperty();
-    	district.addStringProperty("name").notNull();
-    	district.addLongProperty("timestamp");
-    	Property cityId = district.addLongProperty("city_id").notNull().getProperty();
-    	district.addToOne(city, cityId);
-    	
-    	ToMany cityDis = city.addToMany(district, cityId);
-    	cityDis.setName("cityDis");
     }
     
     

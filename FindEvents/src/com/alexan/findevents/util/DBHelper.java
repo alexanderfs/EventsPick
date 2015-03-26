@@ -7,7 +7,6 @@ import com.alexan.findevents.dao.DBCategoryDao;
 import com.alexan.findevents.dao.DBCategoryEventDao;
 import com.alexan.findevents.dao.DBCityDao;
 import com.alexan.findevents.dao.DBCommentDao;
-import com.alexan.findevents.dao.DBDistrictDao;
 import com.alexan.findevents.dao.DBEventCategoryDao;
 import com.alexan.findevents.dao.DBEventDao;
 import com.alexan.findevents.dao.DBEventMessageDao;
@@ -47,7 +46,6 @@ public class DBHelper {
 	private   DBLocationDao locationDao;
 	private   DBProvinceDao provinceDao;
 	private   DBCityDao cityDao;
-	private   DBDistrictDao districtDao;
 	private   DBCommentDao commentDao;
 	private   DBHotEventDao hotEventDao;
 	private   DBRTEventDao rTEventDao;
@@ -73,7 +71,7 @@ public class DBHelper {
 			instance.categoryEventDao = ds.getDBCategoryEventDao();
 			instance.cityDao = ds.getDBCityDao();
 			instance.commentDao = ds.getDBCommentDao();
-			instance.districtDao = ds.getDBDistrictDao();
+			
 			instance.eventCategoryDao = ds.getDBEventCategoryDao();
 			instance.eventDao = ds.getDBEventDao();
 			instance.pickEventDao = ds.getDBPickEventDao();
@@ -210,14 +208,7 @@ public class DBHelper {
 		this.cityDao = cityDao;
 	}
 
-	public DBDistrictDao getDistrictDao() {
-		return districtDao;
-	}
-
-	public void setDistrictDao(DBDistrictDao districtDao) {
-		this.districtDao = districtDao;
-	}
-
+	
 	public DBCommentDao getCommentDao() {
 		return commentDao;
 	}

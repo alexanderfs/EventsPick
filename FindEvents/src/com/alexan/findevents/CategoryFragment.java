@@ -247,7 +247,7 @@ public class CategoryFragment extends Fragment {
 		}
 		
 		PickListAdapter hea = new PickListAdapter(getActivity(),
-				currEventList);
+				currEventList, vList);
 		vList.setAdapter(hea);
 		vList.setOnItemClickListener(new OnItemClickListener() {
 

@@ -180,6 +180,17 @@
         <item>延庆</item>
         <item>开发区 </item>
     </string-array>
+    <string-array name="city1">
+        <item>东城</item>
+        <item>朝阳</item>
+        <item>海淀</item>
+    </string-array>
+    
+     <string-array name="city2">
+        <item>闵行</item>
+        <item>徐州</item>
+        <item>test</item>
+    </string-array>
     
     <string-array name="location_name">
         <item>枫蓝国际</item>

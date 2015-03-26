@@ -32,6 +32,7 @@ import com.alexan.findevents.dao.DBEventCategory;
 import com.alexan.findevents.dao.DBImage;
 import com.alexan.findevents.dao.DBImageDao.Properties;
 import com.alexan.findevents.dao.DBPerson;
+import com.alexan.findevents.dao.DBPickEvent;
 import com.alexan.findevents.util.DBHelper;
 import com.alexan.findevents.util.DensityUtil;
 import com.alexan.findevents.util.ImageUtil;
@@ -57,7 +58,7 @@ public class EventDetailActivity extends SherlockActivity {
     private ViewPager vImage;
     private ImageView imagev;
     private List<ImageView> imageList = new ArrayList<ImageView>();
-	private DBEvent currEvent = new DBEvent();
+	private DBPickEvent currEvent = new DBPickEvent();
 	private boolean isFake;
 	private LinearLayout vDots;
 	
@@ -70,12 +71,12 @@ public class EventDetailActivity extends SherlockActivity {
 		initView();
 		
 		try {
-			currEvent = DBHelper.getInstance(this).getEventDao().loadByRowId(getIntent().getExtras().getLong("event_id"));
+			currEvent = DBHelper.getInstance(this).getPickEventDao().loadByRowId(getIntent().getExtras().getLong("event_id"));
 			if(currEvent == null) {
-				currEvent = new DBEvent();
+				currEvent = new DBPickEvent();
 			}
 		} catch (Exception e) {
-			currEvent = new DBEvent();
+			currEvent = new DBPickEvent();
 			e.printStackTrace();
 		}
 		
@@ -203,8 +204,6 @@ public class EventDetailActivity extends SherlockActivity {
 		return true;
 	}*/
 	
-	
-	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
@@ -244,7 +243,7 @@ public class EventDetailActivity extends SherlockActivity {
 				dc.setTimestamp(System.currentTimeMillis());
 				DBHelper.getInstance(EventDetailActivity.this).getCommentDao().insert(dc);
 				currEvent.setCollectionNum((currEvent.getCollectionNum() == null ? 0 : currEvent.getCollectionNum()) + 1);
-				DBHelper.getInstance(EventDetailActivity.this).getEventDao().update(currEvent);
+				DBHelper.getInstance(EventDetailActivity.this).getPickEventDao().update(currEvent);
 				vOtherDetail.setText(ImageUtil.getEventOtherDetail(currEvent, EventDetailActivity.this));
 				Toast.makeText(EventDetailActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
 			}
@@ -297,7 +296,7 @@ public class EventDetailActivity extends SherlockActivity {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		if(requestCode == 0) {
-			currEvent = DBHelper.getInstance(this).getEventDao().load(currEvent.getId());
+			currEvent = DBHelper.getInstance(this).getPickEventDao().load(currEvent.getId());
 			vOtherDetail.setText(ImageUtil.getEventOtherDetail(currEvent, this));
 		}
 	}
@@ -334,7 +333,7 @@ public class EventDetailActivity extends SherlockActivity {
 				ImageView iv = (ImageView) currView.findViewById(R.id.list_it_icon);
 				iv.setImageResource(R.drawable.item_time);
 				TextView tv = (TextView) currView.findViewById(R.id.list_it_desc);
-				tv.setText(TimeUtil.getDateSpanString(currEvent.getStarttime(), currEvent.getEndtime()));
+				tv.setText("【时间】："+currEvent.getStartt()+"-"+currEvent.getEndt());
 			}
 				break;
 			case 1: {
@@ -343,7 +342,7 @@ public class EventDetailActivity extends SherlockActivity {
 				iv.setImageResource(R.drawable.item_location);
 			/*	iv.setImageDrawable(getResources().getDrawable(R.drawable.item_location));*/
 				final TextView tv = (TextView) currView.findViewById(R.id.list_it_desc);
-				tv.setText(StringFormatUtil.buildAddrString(currEvent));
+				tv.setText(StringFormatUtil.buildPickAddrString(currEvent));
 				currView.setOnClickListener(new OnClickListener() {
 					
 					@Override
@@ -369,16 +368,17 @@ public class EventDetailActivity extends SherlockActivity {
 				ImageView iv = (ImageView) currView.findViewById(R.id.list_it_icon);
 				iv.setImageResource(R.drawable.item_catagory);
 				TextView tv = (TextView) currView.findViewById(R.id.list_it_desc);
-				if(currEvent.getId() == null || currEvent.getCategories() == null) {
+				if(currEvent.getId() == null || currEvent.getCatagory() == null) {
 					tv.setText("【类型】 DEFAULT CATEGORY");
 				} else {
-					StringBuilder sb = new StringBuilder();
+					/*StringBuilder sb = new StringBuilder();
 					sb.append("【类型】 ");
 					for(DBEventCategory eca: currEvent.getCategories()) {
 						DBCategory ca = eca.getDBCategory();//DBHelper.getInstance(EventDetailActivity.this).getCategoryDao().loadByRowId(eca.getCategoryID());
 						sb.append(ca.getName()).append(" ");
 					}
-					tv.setText(sb.toString());
+					tv.setText(sb.toString());*/
+					tv.setText("【类型】 "+currEvent.getCatagory());
 				}
 				
 			} 

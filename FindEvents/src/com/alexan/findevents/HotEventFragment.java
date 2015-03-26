@@ -39,6 +39,7 @@ import com.alexan.findevents.dao.DBLocation;
 import com.alexan.findevents.dao.DBPickEvent;
 import com.alexan.findevents.dao.DBPickEventDao;
 import com.alexan.findevents.event.EventDetailActivity;
+import com.alexan.findevents.event.PickAddrActivity;
 import com.alexan.findevents.util.DBHelper;
 import com.alexan.findevents.crj.*;
 
@@ -66,7 +67,7 @@ public class HotEventFragment extends Fragment {
 			// TODO Auto-generated method stub
 			pickList = DBHelper.getInstance(getActivity()).getPickEventDao().queryBuilder().where(DBPickEventDao.Properties.City.eq(city)).list();
 			System.out.print(pickList.toString());
-			PickListAdapter hea = new PickListAdapter(getActivity(), pickList);
+			PickListAdapter hea = new PickListAdapter(getActivity(), pickList,vList);
 			vList.setAdapter(hea);
 			super.handleMessage(msg);
 		}
@@ -101,7 +102,7 @@ public class HotEventFragment extends Fragment {
 		this.city = city;
 		pickList = DBHelper.getInstance(getActivity()).getPickEventDao().queryBuilder().where(DBPickEventDao.Properties.City.eq(city)).list();
 		
-		PickListAdapter hea = new PickListAdapter(getActivity(), pickList);
+		PickListAdapter hea = new PickListAdapter(getActivity(), pickList,vList);
 		vList.setAdapter(hea); 
 	}
 	
@@ -114,7 +115,7 @@ public class HotEventFragment extends Fragment {
 		if(pickList == null) {
 			pickList = new ArrayList<DBPickEvent>();
 		}
-		PickListAdapter hea = new PickListAdapter(getActivity(), pickList);
+		PickListAdapter hea = new PickListAdapter(getActivity(), pickList,vList);
 		vList.setAdapter(hea); 
 		vList.setOnItemClickListener(new OnItemClickListener() {
 
@@ -164,7 +165,7 @@ public class HotEventFragment extends Fragment {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		if(requestCode == 1){
-			PickListAdapter hea = new PickListAdapter(getActivity(), pickList);
+			PickListAdapter hea = new PickListAdapter(getActivity(), pickList, vList);
 			vList.setAdapter(hea); 
 		}
 	}

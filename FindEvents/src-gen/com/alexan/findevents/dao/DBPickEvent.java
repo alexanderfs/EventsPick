@@ -13,8 +13,8 @@ public class DBPickEvent {
     private String address;
     private String province;
     private String city;
-    private String district;
     private String addressdetail;
+    private String photo;
     private String startt;
     private String endt;
     private String startd;
@@ -31,7 +31,7 @@ public class DBPickEvent {
         this.id = id;
     }
 
-    public DBPickEvent(Long id, Long userID, String title, String description, String address, String province, String city, String district, String addressdetail, String startt, String endt, String startd, String endd, Integer collectionNum, Integer attendNum, Integer commentNum, String catagory) {
+    public DBPickEvent(Long id, Long userID, String title, String description, String address, String province, String city, String addressdetail, String photo, String startt, String endt, String startd, String endd, Integer collectionNum, Integer attendNum, Integer commentNum, String catagory) {
         this.id = id;
         this.userID = userID;
         this.title = title;
@@ -39,8 +39,8 @@ public class DBPickEvent {
         this.address = address;
         this.province = province;
         this.city = city;
-        this.district = district;
         this.addressdetail = addressdetail;
+        this.photo = photo;
         this.startt = startt;
         this.endt = endt;
         this.startd = startd;
@@ -107,20 +107,20 @@ public class DBPickEvent {
         this.city = city;
     }
 
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
     public String getAddressdetail() {
         return addressdetail;
     }
 
     public void setAddressdetail(String addressdetail) {
         this.addressdetail = addressdetail;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public String getStartt() {

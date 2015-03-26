@@ -22,7 +22,6 @@ import com.alexan.findevents.dao.DBPickEventDao;
 import com.alexan.findevents.dao.DBLocationDao;
 import com.alexan.findevents.dao.DBProvinceDao;
 import com.alexan.findevents.dao.DBCityDao;
-import com.alexan.findevents.dao.DBDistrictDao;
 import com.alexan.findevents.dao.DBCommentDao;
 import com.alexan.findevents.dao.DBHotEventDao;
 import com.alexan.findevents.dao.DBRTEventDao;
@@ -56,7 +55,6 @@ public class DaoMaster extends AbstractDaoMaster {
         DBLocationDao.createTable(db, ifNotExists);
         DBProvinceDao.createTable(db, ifNotExists);
         DBCityDao.createTable(db, ifNotExists);
-        DBDistrictDao.createTable(db, ifNotExists);
         DBCommentDao.createTable(db, ifNotExists);
         DBHotEventDao.createTable(db, ifNotExists);
         DBRTEventDao.createTable(db, ifNotExists);
@@ -84,7 +82,6 @@ public class DaoMaster extends AbstractDaoMaster {
         DBLocationDao.dropTable(db, ifExists);
         DBProvinceDao.dropTable(db, ifExists);
         DBCityDao.dropTable(db, ifExists);
-        DBDistrictDao.dropTable(db, ifExists);
         DBCommentDao.dropTable(db, ifExists);
         DBHotEventDao.dropTable(db, ifExists);
         DBRTEventDao.dropTable(db, ifExists);
@@ -139,7 +136,6 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(DBLocationDao.class);
         registerDaoClass(DBProvinceDao.class);
         registerDaoClass(DBCityDao.class);
-        registerDaoClass(DBDistrictDao.class);
         registerDaoClass(DBCommentDao.class);
         registerDaoClass(DBHotEventDao.class);
         registerDaoClass(DBRTEventDao.class);

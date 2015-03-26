@@ -23,7 +23,6 @@ import com.alexan.findevents.dao.DBPickEvent;
 import com.alexan.findevents.dao.DBLocation;
 import com.alexan.findevents.dao.DBProvince;
 import com.alexan.findevents.dao.DBCity;
-import com.alexan.findevents.dao.DBDistrict;
 import com.alexan.findevents.dao.DBComment;
 import com.alexan.findevents.dao.DBHotEvent;
 import com.alexan.findevents.dao.DBRTEvent;
@@ -48,7 +47,6 @@ import com.alexan.findevents.dao.DBPickEventDao;
 import com.alexan.findevents.dao.DBLocationDao;
 import com.alexan.findevents.dao.DBProvinceDao;
 import com.alexan.findevents.dao.DBCityDao;
-import com.alexan.findevents.dao.DBDistrictDao;
 import com.alexan.findevents.dao.DBCommentDao;
 import com.alexan.findevents.dao.DBHotEventDao;
 import com.alexan.findevents.dao.DBRTEventDao;
@@ -82,7 +80,6 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig dBLocationDaoConfig;
     private final DaoConfig dBProvinceDaoConfig;
     private final DaoConfig dBCityDaoConfig;
-    private final DaoConfig dBDistrictDaoConfig;
     private final DaoConfig dBCommentDaoConfig;
     private final DaoConfig dBHotEventDaoConfig;
     private final DaoConfig dBRTEventDaoConfig;
@@ -107,7 +104,6 @@ public class DaoSession extends AbstractDaoSession {
     private final DBLocationDao dBLocationDao;
     private final DBProvinceDao dBProvinceDao;
     private final DBCityDao dBCityDao;
-    private final DBDistrictDao dBDistrictDao;
     private final DBCommentDao dBCommentDao;
     private final DBHotEventDao dBHotEventDao;
     private final DBRTEventDao dBRTEventDao;
@@ -164,9 +160,6 @@ public class DaoSession extends AbstractDaoSession {
         dBCityDaoConfig = daoConfigMap.get(DBCityDao.class).clone();
         dBCityDaoConfig.initIdentityScope(type);
 
-        dBDistrictDaoConfig = daoConfigMap.get(DBDistrictDao.class).clone();
-        dBDistrictDaoConfig.initIdentityScope(type);
-
         dBCommentDaoConfig = daoConfigMap.get(DBCommentDao.class).clone();
         dBCommentDaoConfig.initIdentityScope(type);
 
@@ -208,7 +201,6 @@ public class DaoSession extends AbstractDaoSession {
         dBLocationDao = new DBLocationDao(dBLocationDaoConfig, this);
         dBProvinceDao = new DBProvinceDao(dBProvinceDaoConfig, this);
         dBCityDao = new DBCityDao(dBCityDaoConfig, this);
-        dBDistrictDao = new DBDistrictDao(dBDistrictDaoConfig, this);
         dBCommentDao = new DBCommentDao(dBCommentDaoConfig, this);
         dBHotEventDao = new DBHotEventDao(dBHotEventDaoConfig, this);
         dBRTEventDao = new DBRTEventDao(dBRTEventDaoConfig, this);
@@ -233,7 +225,6 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(DBLocation.class, dBLocationDao);
         registerDao(DBProvince.class, dBProvinceDao);
         registerDao(DBCity.class, dBCityDao);
-        registerDao(DBDistrict.class, dBDistrictDao);
         registerDao(DBComment.class, dBCommentDao);
         registerDao(DBHotEvent.class, dBHotEventDao);
         registerDao(DBRTEvent.class, dBRTEventDao);
@@ -260,7 +251,6 @@ public class DaoSession extends AbstractDaoSession {
         dBLocationDaoConfig.getIdentityScope().clear();
         dBProvinceDaoConfig.getIdentityScope().clear();
         dBCityDaoConfig.getIdentityScope().clear();
-        dBDistrictDaoConfig.getIdentityScope().clear();
         dBCommentDaoConfig.getIdentityScope().clear();
         dBHotEventDaoConfig.getIdentityScope().clear();
         dBRTEventDaoConfig.getIdentityScope().clear();
@@ -326,10 +316,6 @@ public class DaoSession extends AbstractDaoSession {
 
     public DBCityDao getDBCityDao() {
         return dBCityDao;
-    }
-
-    public DBDistrictDao getDBDistrictDao() {
-        return dBDistrictDao;
     }
 
     public DBCommentDao getDBCommentDao() {

@@ -2,11 +2,13 @@ package com.alexan.findevents.crj;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,13 +16,18 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.Handler;
+import android.widget.Toast;
 
+import com.alexan.findevents.AppConstant;
+import com.alexan.findevents.dao.DBLocation;
 import com.alexan.findevents.dao.DBPickEvent;
+import com.alexan.findevents.event.PickAddrActivity;
 import com.alexan.findevents.util.DBHelper;
 
 public class JSONparse {
 	
 	public static void parseEvents(JSONArray data, Context context){
+		String purl = null;
 		for(int i = 0;i<data.length();i++){
 			try {
 				JSONObject jo = data.getJSONObject(i);
@@ -31,12 +38,23 @@ public class JSONparse {
 				event.setUserID(Long.parseLong(jo.getString("UserId")));
 				event.setCatagory(jo.getString("EventCategoryName")==null?"DEFAULT":jo.getString("EventCategoryName"));
 				
+				event.setStartd(jo.getString("EventStartDate")==null?"DEFAULT":jo.getString("EventStartDate"));
+				event.setStartt(jo.getString("EventStartTime")==null?"DEFAULT":jo.getString("EventStartTime"));
+				event.setEndd(jo.getString("EventEndDate")==null?"DEFAULT":jo.getString("EventEndDate"));
+				event.setEndt(jo.getString("EventEndTime")==null?"DEFAULT":jo.getString("EventEndTime"));
+				
 				event.setProvince(jo.getString("ProvinceName")==null?"DEFAULT":jo.getString("ProvinceName"));
-				event.setAddress("地址");
-				event.setAddressdetail("测试地址");
+				event.setAddress(jo.getString("VenueName")==null?"DEFAULT":jo.getString("VenueName"));
+				event.setAddressdetail(jo.getString("VenueAddress")==null?"DEFAULT":jo.getString("VenueAddress"));
 				//测试阶段，暂且用provincename代替cityname。
 				event.setCity(jo.getString("ProvinceName")==null?"DEFAULT":jo.getString("ProvinceName"));
-				event.setDistrict("丰台");
+				if(jo.getString("HasPictures").equals("1")){
+						if(!jo.get("pics").equals(null)){
+							purl = jo.getJSONArray("pics").getJSONObject(0).getString("PictureUrl");
+						}
+				}
+				event.setPhoto(purl);
+				
 				
 				DBHelper.getInstance(context).getPickEventDao().insert(event);
 			} catch (JSONException e) {
@@ -45,6 +63,15 @@ public class JSONparse {
 			}
 			
 		}
+	}
+	
+	public static void postto(String url, Map<String, String>params, Context context, Handler handler){
+		HttpClient client=new DefaultHttpClient();// 开启一个客户端 HTTP 请求   
+        HttpPost post = new HttpPost(url);//创建 HTTP POST 请求    
+        
+       /* try {
+        	
+        }*/
 	}
 	
 	public static void refreshFrom(String url, Context context, Handler handler){
@@ -72,7 +99,13 @@ public class JSONparse {
 				
 				JSONObject result = new JSONObject(sb.toString());
 				JSONArray data = result.getJSONArray("data");
-				JSONparse.parseEvents(data, context);
+				//根据url的不同，调用不同的解析方法：
+				if(url.equals("http://123.57.45.183/event/GetEvents")){
+					JSONparse.parseEvents(data, context);
+				}
+				else if(url.equals("http://123.57.45.183/venue/SearchVenues")){
+					JSONparse.parseVenues(data, context);
+				}
 				
 				handler.sendEmptyMessage(1);
 				
@@ -82,6 +115,48 @@ public class JSONparse {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private static void parseVenues(JSONArray data, Context context) {
+		// TODO Auto-generated method stub
+		
+		for(int i = 0;i<data.length();i++){
+			try {
+				JSONObject jo = data.getJSONObject(i);
+				DBLocation ndbl = new DBLocation();
+				ndbl.setId(Long.parseLong(jo.getString("VenueId")));
+				ndbl.setAddrName(jo.getString("VenueName")==null?"DEFAULT":jo.getString("VenueName"));
+				ndbl.setAddrDetail(jo.getString("VenueAddress")==null?"DEFAULT":jo.getString("VenueAddress"));
+				ndbl.setAddrProvince(getProvinceName(jo.getString("VenueProvinceId")));
+				ndbl.setAddrCity(getCityName(jo.getString("VenueCityId")));
+			
+				DBHelper.getInstance(context).getLocationDao().insert(ndbl);	
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*try {
+			JSONObject obresult = new JSONObject(result);
+			String code = obresult.getString("code");
+			if(!code.equals("10000")){
+				Toast.makeText(context, "保存失败，请填写完整的地址", Toast.LENGTH_SHORT).show();
+			}
+			else{*/
+	
+	}
+	
+	protected static String getCityName(String cityid) {
+		// TODO Auto-generated method stub
+		return AppConstant.CITYID_KV.get(cityid);
+	}
+
+	protected static String getProvinceName(String proid) {
+		// TODO Auto-generated method stub
+		return AppConstant.PROVINCEID_KV.get(proid);
+	
 	}
 
 }

@@ -57,86 +57,6 @@ public class LaunchActivity extends Activity {
 		if(isFirst) {
 			initStorageDir();
 			initData();
-			Calendar c = Calendar.getInstance();
-			int year = c.get(Calendar.YEAR);
-		    int month = c.get(Calendar.MONTH);
-		    int dayofmonth = c.get(Calendar.DAY_OF_MONTH);
-		    
-		    
-		    
-			for(int k=1;k<=20;k++){
-				DBEvent event = new DBEvent();
-				event.setDescription(getResources().getString(R.string.event_desc));
-				event.setTitle("管理员事件"+k);
-				event.setUserID(adminID);
-				event.setLocationID((long) (k%3+1));
-				DBLocation dblo = DBHelper.getInstance(this).getLocationDao().load((long) (k%3+1));
-				event.setAddress(dblo.getAddrName());
-				event.setAddressdetail(dblo.getAddrDetail());
-				event.setCity(dblo.getAddrCity());
-				event.setDistrict(dblo.getAddrDistrict());
-				event.setStarttime(new GregorianCalendar(year, month, k, 9, 30).getTime().getTime());
-		        event.setEndtime(new GregorianCalendar(year, month, k+2, 17, 20).getTime().getTime());
-		        event.setTimestamp(System.currentTimeMillis());
-		        long eventID = DBHelper.getInstance(this).getEventDao().insert(event);
-		        int[] sequence = new int[9];
-	            int[] output = new int[9];
-	 
-	            for (int i = 0; i < 9; i++)
-	            {
-	                sequence[i] = i+2;
-	            }
-	 
-	            Random random = new Random();
-	            int count = random.nextInt(3);
-	            int end = 9 - 1;
-	 
-	            for (int i = 0; i <= count; i++)
-	            {
-	                int num = random.nextInt(end + 1);
-	                output[i] = sequence[num];
-	                sequence[num] = sequence[end];
-	                end--;
-	            }
-	            
-	            for (int i = 0; i <= count; i++)
-	            {
-	            	DBEventCategory ec = new DBEventCategory();
-		            ec.setEventID(eventID);
-		            ec.setCategoryID((long) output[i]);
-		            ec.setTimestamp(Calendar.getInstance().getTimeInMillis());
-		            DBHelper.getInstance(this).getEventCategoryDao().insert(ec);
-	            }
-	            
-	            Bitmap[] bgImg = new Bitmap[3];
-	            bgImg[0] = getImageFromAssetFile( "37.jpg" );    
-	            bgImg[1] = getImageFromAssetFile( "73.jpg" ); 
-	            bgImg[2] = getImageFromAssetFile( "72.jpg" ); 
-	  
-	            for(int i=0;i<3;i++){
-	            	StringBuilder sb = new StringBuilder();
-	                String dirName, fileName;
-	                dirName = Environment.getExternalStorageDirectory() + AppConstant.folderName;
-	                fileName = System.currentTimeMillis() + ".jpg";
-	                sb.append(dirName + "/" + fileName);
-	                File dir=new File(dirName); 
-	                if(!dir.exists()) dir.mkdirs();
-	                try {
-	                	FileOutputStream out = new FileOutputStream(new File(dir, fileName));  
-	                    bgImg[i].compress(Bitmap.CompressFormat.JPEG, 100, out);  
-	                    out.flush();  
-	                    out.close();
-					} catch (Exception e) {
-						// TODO: handle exception
-					}
-	                DBImage imgTemp = new DBImage();
-		            imgTemp.setImageUrl(sb.toString());
-		            imgTemp.setTimestamp(System.currentTimeMillis());
-		            imgTemp.setEventID(eventID);
-	                DBHelper.getInstance(this).getImageDao().insert(imgTemp);
-	            }
-           
-			}
 		}
 		mh.sendEmptyMessageDelayed(0, 2000);
 	}
@@ -159,8 +79,6 @@ public class LaunchActivity extends Activity {
          }     
          return image;   
 	}
-
-
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -186,7 +104,7 @@ public class LaunchActivity extends Activity {
 				sdb.insert(DBCategoryDao.TABLENAME, null, cv);
 			}
 			
-			String[] locationList = getResources().getStringArray(R.array.location_name);
+			/*String[] locationList = getResources().getStringArray(R.array.location_name);
 			String[] loDescList = getResources().getStringArray(R.array.location_desc);
 			String[] loCityList = getResources().getStringArray(R.array.location_city);
 			String[] loDistrictList = getResources().getStringArray(R.array.location_district);
@@ -198,7 +116,7 @@ public class LaunchActivity extends Activity {
 				cv.put(DBLocationDao.Properties.AddrDistrict.columnName, loDistrictList[i]);
 				cv.put(DBLocationDao.Properties.Timestamp.columnName, System.currentTimeMillis());
 				sdb.insert(DBLocationDao.TABLENAME, null, cv);
-			}
+			}*/
 					
 			String[] data = getResources().getStringArray(R.array.names);
 			for(String s : data){

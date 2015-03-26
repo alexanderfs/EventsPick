@@ -30,8 +30,8 @@ public class DBPickEventDao extends AbstractDao<DBPickEvent, Long> {
         public final static Property Address = new Property(4, String.class, "address", false, "ADDRESS");
         public final static Property Province = new Property(5, String.class, "province", false, "PROVINCE");
         public final static Property City = new Property(6, String.class, "city", false, "CITY");
-        public final static Property District = new Property(7, String.class, "district", false, "DISTRICT");
-        public final static Property Addressdetail = new Property(8, String.class, "addressdetail", false, "ADDRESSDETAIL");
+        public final static Property Addressdetail = new Property(7, String.class, "addressdetail", false, "ADDRESSDETAIL");
+        public final static Property Photo = new Property(8, String.class, "photo", false, "PHOTO");
         public final static Property Startt = new Property(9, String.class, "startt", false, "STARTT");
         public final static Property Endt = new Property(10, String.class, "endt", false, "ENDT");
         public final static Property Startd = new Property(11, String.class, "startd", false, "STARTD");
@@ -62,8 +62,8 @@ public class DBPickEventDao extends AbstractDao<DBPickEvent, Long> {
                 "'ADDRESS' TEXT," + // 4: address
                 "'PROVINCE' TEXT," + // 5: province
                 "'CITY' TEXT," + // 6: city
-                "'DISTRICT' TEXT," + // 7: district
-                "'ADDRESSDETAIL' TEXT," + // 8: addressdetail
+                "'ADDRESSDETAIL' TEXT," + // 7: addressdetail
+                "'PHOTO' TEXT," + // 8: photo
                 "'STARTT' TEXT," + // 9: startt
                 "'ENDT' TEXT," + // 10: endt
                 "'STARTD' TEXT," + // 11: startd
@@ -120,14 +120,14 @@ public class DBPickEventDao extends AbstractDao<DBPickEvent, Long> {
             stmt.bindString(7, city);
         }
  
-        String district = entity.getDistrict();
-        if (district != null) {
-            stmt.bindString(8, district);
-        }
- 
         String addressdetail = entity.getAddressdetail();
         if (addressdetail != null) {
-            stmt.bindString(9, addressdetail);
+            stmt.bindString(8, addressdetail);
+        }
+ 
+        String photo = entity.getPhoto();
+        if (photo != null) {
+            stmt.bindString(9, photo);
         }
  
         String startt = entity.getStartt();
@@ -188,8 +188,8 @@ public class DBPickEventDao extends AbstractDao<DBPickEvent, Long> {
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // address
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // province
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // city
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // district
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // addressdetail
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // addressdetail
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // photo
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // startt
             cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // endt
             cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // startd
@@ -212,8 +212,8 @@ public class DBPickEventDao extends AbstractDao<DBPickEvent, Long> {
         entity.setAddress(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setProvince(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setCity(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setDistrict(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setAddressdetail(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setAddressdetail(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setPhoto(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
         entity.setStartt(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
         entity.setEndt(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
         entity.setStartd(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
