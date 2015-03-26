@@ -217,6 +217,7 @@ public class ExampleDaoGenerator {
     	location.addIdProperty();
     	location.addStringProperty("addrName");
     	location.addStringProperty("addrDetail");
+    	location.addStringProperty("addrProvince");
     	location.addStringProperty("addrCity");
     	location.addStringProperty("addrDistrict");
     	location.addLongProperty("timestamp");

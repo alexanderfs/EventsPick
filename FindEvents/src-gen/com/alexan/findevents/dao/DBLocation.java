@@ -9,6 +9,7 @@ public class DBLocation {
     private Long id;
     private String addrName;
     private String addrDetail;
+    private String addrProvince;
     private String addrCity;
     private String addrDistrict;
     private Long timestamp;
@@ -20,10 +21,11 @@ public class DBLocation {
         this.id = id;
     }
 
-    public DBLocation(Long id, String addrName, String addrDetail, String addrCity, String addrDistrict, Long timestamp) {
+    public DBLocation(Long id, String addrName, String addrDetail, String addrProvince, String addrCity, String addrDistrict, Long timestamp) {
         this.id = id;
         this.addrName = addrName;
         this.addrDetail = addrDetail;
+        this.addrProvince = addrProvince;
         this.addrCity = addrCity;
         this.addrDistrict = addrDistrict;
         this.timestamp = timestamp;
@@ -51,6 +53,14 @@ public class DBLocation {
 
     public void setAddrDetail(String addrDetail) {
         this.addrDetail = addrDetail;
+    }
+
+    public String getAddrProvince() {
+        return addrProvince;
+    }
+
+    public void setAddrProvince(String addrProvince) {
+        this.addrProvince = addrProvince;
     }
 
     public String getAddrCity() {

@@ -26,9 +26,10 @@ public class DBLocationDao extends AbstractDao<DBLocation, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property AddrName = new Property(1, String.class, "addrName", false, "ADDR_NAME");
         public final static Property AddrDetail = new Property(2, String.class, "addrDetail", false, "ADDR_DETAIL");
-        public final static Property AddrCity = new Property(3, String.class, "addrCity", false, "ADDR_CITY");
-        public final static Property AddrDistrict = new Property(4, String.class, "addrDistrict", false, "ADDR_DISTRICT");
-        public final static Property Timestamp = new Property(5, Long.class, "timestamp", false, "TIMESTAMP");
+        public final static Property AddrProvince = new Property(3, String.class, "addrProvince", false, "ADDR_PROVINCE");
+        public final static Property AddrCity = new Property(4, String.class, "addrCity", false, "ADDR_CITY");
+        public final static Property AddrDistrict = new Property(5, String.class, "addrDistrict", false, "ADDR_DISTRICT");
+        public final static Property Timestamp = new Property(6, Long.class, "timestamp", false, "TIMESTAMP");
     };
 
 
@@ -47,9 +48,10 @@ public class DBLocationDao extends AbstractDao<DBLocation, Long> {
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'ADDR_NAME' TEXT," + // 1: addrName
                 "'ADDR_DETAIL' TEXT," + // 2: addrDetail
-                "'ADDR_CITY' TEXT," + // 3: addrCity
-                "'ADDR_DISTRICT' TEXT," + // 4: addrDistrict
-                "'TIMESTAMP' INTEGER);"); // 5: timestamp
+                "'ADDR_PROVINCE' TEXT," + // 3: addrProvince
+                "'ADDR_CITY' TEXT," + // 4: addrCity
+                "'ADDR_DISTRICT' TEXT," + // 5: addrDistrict
+                "'TIMESTAMP' INTEGER);"); // 6: timestamp
     }
 
     /** Drops the underlying database table. */
@@ -78,19 +80,24 @@ public class DBLocationDao extends AbstractDao<DBLocation, Long> {
             stmt.bindString(3, addrDetail);
         }
  
+        String addrProvince = entity.getAddrProvince();
+        if (addrProvince != null) {
+            stmt.bindString(4, addrProvince);
+        }
+ 
         String addrCity = entity.getAddrCity();
         if (addrCity != null) {
-            stmt.bindString(4, addrCity);
+            stmt.bindString(5, addrCity);
         }
  
         String addrDistrict = entity.getAddrDistrict();
         if (addrDistrict != null) {
-            stmt.bindString(5, addrDistrict);
+            stmt.bindString(6, addrDistrict);
         }
  
         Long timestamp = entity.getTimestamp();
         if (timestamp != null) {
-            stmt.bindLong(6, timestamp);
+            stmt.bindLong(7, timestamp);
         }
     }
 
@@ -107,9 +114,10 @@ public class DBLocationDao extends AbstractDao<DBLocation, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // addrName
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // addrDetail
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // addrCity
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // addrDistrict
-            cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5) // timestamp
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // addrProvince
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // addrCity
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // addrDistrict
+            cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6) // timestamp
         );
         return entity;
     }
@@ -120,9 +128,10 @@ public class DBLocationDao extends AbstractDao<DBLocation, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setAddrName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setAddrDetail(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setAddrCity(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setAddrDistrict(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setTimestamp(cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5));
+        entity.setAddrProvince(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setAddrCity(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setAddrDistrict(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setTimestamp(cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6));
      }
     
     /** @inheritdoc */
