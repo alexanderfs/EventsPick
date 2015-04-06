@@ -58,7 +58,7 @@ public class HotEventFragment extends Fragment {
     private List<DBPickEvent> pickList;
 	//private DBEvent headEvent = new DBEvent();
 	private View eventView;
-	private String city;
+	private String city = "北京";
 	
 	private Handler handler = new Handler(){
 
@@ -91,7 +91,7 @@ public class HotEventFragment extends Fragment {
 	}
 	
 	private void initData() {
-		pickList = DBHelper.getInstance(getActivity()).getPickEventDao().queryBuilder().list();
+		pickList = DBHelper.getInstance(getActivity()).getPickEventDao().queryBuilder().where(DBPickEventDao.Properties.City.eq(city)).list();
 //		if(eventList.size() > 0) {
 //			headEvent = eventList.get(0);
 //			eventList.remove(0);

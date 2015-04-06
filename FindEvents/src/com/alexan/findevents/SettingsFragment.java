@@ -44,8 +44,8 @@ public class SettingsFragment extends Fragment {
 	
 	private void initView(View v) {
 		vTV1 = (TextView) v.findViewById(R.id.fgt_setting_account);
-		String curruser = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("curr_user", "none");
-		if(curruser == "none"){
+		long curruser_id = PreferenceManager.getDefaultSharedPreferences(getActivity()).getLong("curr_user_id", 0);
+		if(curruser_id == 0){
 			vTV1.setVisibility(View.GONE);
 		}
 		else

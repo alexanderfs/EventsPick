@@ -93,17 +93,18 @@ public class JSONparse {
 				}
 				br.close();
 				System.out.print(sb.toString());
-				//删了之前的event
-				DBHelper.getInstance(context).getPickEventDao().deleteAll();
 				//解析json
-				
 				JSONObject result = new JSONObject(sb.toString());
 				JSONArray data = result.getJSONArray("data");
 				//根据url的不同，调用不同的解析方法：
 				if(url.equals("http://123.57.45.183/event/GetEvents")){
+					//删了之前的event
+					DBHelper.getInstance(context).getPickEventDao().deleteAll();
 					JSONparse.parseEvents(data, context);
 				}
 				else if(url.equals("http://123.57.45.183/venue/SearchVenues")){
+					//删了之前的venue
+					DBHelper.getInstance(context).getLocationDao().deleteAll();
 					JSONparse.parseVenues(data, context);
 				}
 				

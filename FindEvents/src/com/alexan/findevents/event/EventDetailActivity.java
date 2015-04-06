@@ -25,22 +25,16 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.alexan.findevents.R;
-import com.alexan.findevents.dao.DBCategory;
 import com.alexan.findevents.dao.DBComment;
-import com.alexan.findevents.dao.DBEvent;
-import com.alexan.findevents.dao.DBEventCategory;
-import com.alexan.findevents.dao.DBImage;
-import com.alexan.findevents.dao.DBImageDao.Properties;
 import com.alexan.findevents.dao.DBPerson;
 import com.alexan.findevents.dao.DBPickEvent;
 import com.alexan.findevents.util.DBHelper;
 import com.alexan.findevents.util.DensityUtil;
 import com.alexan.findevents.util.ImageUtil;
 import com.alexan.findevents.util.StringFormatUtil;
-import com.alexan.findevents.util.TimeUtil;
 import com.alexan.findevents.view.ListViewForScrollView;
-
-import de.greenrobot.dao.query.QueryBuilder;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class EventDetailActivity extends SherlockActivity {
 	
@@ -110,14 +104,19 @@ public class EventDetailActivity extends SherlockActivity {
 		
 	}
     private void createPager(){
-        QueryBuilder<DBImage> qb = DBHelper.getInstance(this).getImageDao()
-                .queryBuilder().where(Properties.EventID.eq(currEvent.getId()));
-        if(qb.list().size() > 0) {
-            for(int i = 0;i<qb.list().size();i++){
-                Bitmap bm = ImageUtil.decodeSampledBitmapFromPath(qb.list().get(i).getImageUrl(), DensityUtil.dip2px(this, 96f),
-                        DensityUtil.dip2px(this, 96f));
+        String photoUrl = currEvent.getPhoto();
+        if(photoUrl!=null) {
+            for(int i = 0;i<1;i++){
                 imagev = (ImageView)this.getLayoutInflater().inflate(R.layout.imageview_item,null);
-                imagev.setImageBitmap(bm);
+                
+                DisplayImageOptions options = new DisplayImageOptions.Builder()   
+                .cacheInMemory(true)  
+                .cacheOnDisc(true)  
+                .bitmapConfig(Bitmap.Config.RGB_565)  
+                .build();  
+          
+				ImageLoader.getInstance().displayImage(photoUrl, imagev, options);
+	
                 imageList.add(imagev);
             }
             vDots = (LinearLayout) findViewById(R.id.act_welcome_dots);
@@ -134,7 +133,7 @@ public class EventDetailActivity extends SherlockActivity {
     		vDots.getChildAt(1).setEnabled(false);
     		vDots.getChildAt(2).setEnabled(false);
     		
-            vImage.setCurrentItem(qb.list().size());
+            vImage.setCurrentItem(0);
             vImage.setAdapter(new PagerAdapter() {
             	
                 @Override

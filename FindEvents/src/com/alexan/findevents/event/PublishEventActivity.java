@@ -334,6 +334,11 @@ public class PublishEventActivity extends SherlockActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 //getStoreEvent();
+            	long curr_user_id = PreferenceManager.getDefaultSharedPreferences(PublishEventActivity.this).getLong("curr_user_id", -1);
+            	if(curr_user_id == 0){
+                    Toast.makeText(getBaseContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                    return;
+            	}
                 String strTmp = vTitle.getText().toString();
                 if(strTmp == null || strTmp.equals("")) {
                     Toast.makeText(getBaseContext(), "请填写活动标题", Toast.LENGTH_SHORT).show();

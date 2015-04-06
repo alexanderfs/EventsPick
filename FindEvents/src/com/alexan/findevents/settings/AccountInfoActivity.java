@@ -77,6 +77,8 @@ public class AccountInfoActivity extends SherlockActivity {
 				// TODO Auto-generated method stub
 				PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
 					.edit().putString("curr_user", "none").commit();
+				PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+				.edit().putLong("curr_user_id", 0).commit();
 				Toast.makeText(AccountInfoActivity.this, "注销成功", Toast.LENGTH_SHORT).show();
 				
 				/*Intent intent = new Intent();  //Itent就是我们要发送的内容
