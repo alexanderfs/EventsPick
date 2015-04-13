@@ -98,7 +98,7 @@ public class RegisterActivity extends Activity {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							String params = "NickName="+vUsername.getText().toString()+"&email="+vEmail.getText().toString()+/*"&mobileNo="+""+*/"&password="+vPassword.getText().toString();
+							String params = "NickName="+vUsername.getText().toString()+"&email="+vEmail.getText().toString()+/*"&mobileNo="+""+*/"&password="+vPassword.getText().toString()+"&devise="+android.os.Build.MODEL;
 							String result = Util.httpPost(url, params);
 							Message message = new Message();
 							Bundle bundle = new Bundle();
