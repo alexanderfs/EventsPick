@@ -66,6 +66,9 @@ public class JSONparse {
 						if(!jo.get("pics").equals(null)){
 							purl = jo.getJSONArray("pics").getJSONObject(0).getString("PictureUrl");
 						}
+						else{
+							purl = null;
+						}
 				}
 				event.setPhoto(purl);
 				
