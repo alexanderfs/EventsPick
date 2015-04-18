@@ -1,14 +1,27 @@
 package com.alexan.findevents.crj;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,16 +30,21 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+<<<<<<< HEAD
 import android.os.Message;
 import android.widget.Toast;
+=======
+import android.util.Log;
+>>>>>>> 356aa28628edff078d7b1aecdc813b3a65337b13
 
 import com.alexan.findevents.AppConstant;
 import com.alexan.findevents.dao.DBLocation;
 import com.alexan.findevents.dao.DBPickEvent;
-import com.alexan.findevents.event.PickAddrActivity;
 import com.alexan.findevents.util.DBHelper;
 
 public class JSONparse {
+	
+	static String updateImageUrl = "http://123.57.45.183/event/UpdateEventPictures";
 	
 	public static void parseEvents(JSONArray data, Context context){
 		String purl = null;
@@ -56,6 +74,9 @@ public class JSONparse {
 				if(jo.getString("HasPictures").equals("1")){
 						if(!jo.get("pics").equals(null)){
 							purl = jo.getJSONArray("pics").getJSONObject(0).getString("PictureUrl");
+						}
+						else{
+							purl = null;
 						}
 				}
 				event.setPhoto(purl);
@@ -180,6 +201,29 @@ public class JSONparse {
 		// TODO Auto-generated method stub
 		return AppConstant.PROVINCEID_KV.get(proid);
 	
+	}
+
+	
+	public static boolean uploadimage(long eventId,File file) throws ClientProtocolException, IOException {
+	 	final HttpClient client=new DefaultHttpClient();// 开启一个客户端 HTTP 请求   
+        final HttpPost post = new HttpPost(updateImageUrl);//创建 HTTP POST 请求    
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();  
+	      builder.setCharset(Charset.forName("UTF-8"));//设置请求的编码格式  
+        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);//设置浏览器兼容模式  
+        
+        builder.addBinaryBody("uploadfile", file);  
+        
+        builder.addTextBody("EventId", ""+eventId);
+
+        //builder.addPart("EventId", new LongBody(eventId), Charset.forName("UTF-8")));//设置请求参数  
+	    HttpEntity entity = builder.build();// 生成 HTTP POST 实体        
+        post.setEntity(entity);//设置请求参数  
+        
+        HttpResponse response = client.execute(post);// 发起请求 并返回请求的响应  
+		if (response.getStatusLine().getStatusCode()==200) {  
+            return true;  
+        }
+		return false;
 	}
 
 }

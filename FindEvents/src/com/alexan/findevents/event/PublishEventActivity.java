@@ -1,7 +1,6 @@
 package com.alexan.findevents.event;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -48,10 +47,9 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.alexan.findevents.AppConstant;
 import com.alexan.findevents.R;
+import com.alexan.findevents.crj.JSONparse;
 import com.alexan.findevents.crj.Util;
-import com.alexan.findevents.dao.DBCategory;
 import com.alexan.findevents.dao.DBEvent;
-import com.alexan.findevents.dao.DBEventCategory;
 import com.alexan.findevents.dao.DBImage;
 import com.alexan.findevents.dao.DBLocation;
 import com.alexan.findevents.util.DBHelper;
@@ -79,6 +77,9 @@ public class PublishEventActivity extends SherlockActivity {
     private Button vPickSpot;
 
     private List<Bitmap> eventPhotos = new ArrayList<Bitmap>();
+    
+    String imagePath=null;//2015/4/13
+    
     private List<DBImage> bdPhotos = new ArrayList<DBImage>();
     private PhotoAdapter pa;
     
@@ -100,6 +101,25 @@ public class PublishEventActivity extends SherlockActivity {
     private int dayofmonth2 = c.get(Calendar.DAY_OF_MONTH);
     private int hour2 = c.get(Calendar.HOUR_OF_DAY);
     private int minute2 = c.get(Calendar.MINUTE);
+    
+    Handler hHandler = new Handler(){
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			switch (msg.what) {  
+            case 1:  
+                Toast.makeText(PublishEventActivity.this, "图片上传成功", Toast.LENGTH_LONG).show();  
+                break;            
+              
+			case 2:
+				Toast.makeText(PublishEventActivity.this, "图片上传成功", Toast.LENGTH_LONG).show();  
+                break;  
+			}
+			super.handleMessage(msg);
+		}
+    	
+    };
 
     Handler mHandler=new Handler(){  
         @Override  
@@ -117,7 +137,30 @@ public class PublishEventActivity extends SherlockActivity {
 				if (obj.getString("code").equals("10000")) {
 					
 					JSONObject data = obj.getJSONObject("data");
-					long eventid = (long)data.getInt("EventId");
+					final long eventid = (long)data.getInt("EventId");
+					
+					final File file = new File(imagePath);
+			        if(file!=null){
+			        	new Thread(){
+			    			@Override
+			    			public void run() {
+			    				// TODO Auto-generated method stub		    				
+			    				try {  
+				                     if (JSONparse.uploadimage(eventid, file)) {  
+				                    	 hHandler.sendEmptyMessage(1);
+				                    }else {
+				                    	hHandler.sendEmptyMessage(2);
+				                        //将数据发送给服务器失败  
+				                    }  
+				                } catch (Exception e) {  
+				                    // TODO Auto-generated catch block  
+				                    e.printStackTrace();  
+				                }    
+			    			}			
+			    		}.start();
+			    		
+			        	
+			        }
 					
 					Toast.makeText(PublishEventActivity.this, "发布成功"+eventid,
 							Toast.LENGTH_SHORT).show();
@@ -426,7 +469,7 @@ public class PublishEventActivity extends SherlockActivity {
 				// TODO Auto-generated method stub
 				String params = "UserId="+userID+"&EventTitle="+vTitle.getText().toString()+
 						"&EventDescription="+vDesc.getText().toString()+"&EventStartDate="+startday+"&EventEndDate="+endday+"&EventStartTime="+starttime+"&EventEndTime="+endtime
-						+"&EventCategoryId="+cateId+"&EventVenueId="+locationID;
+						+"&EventCategoryId="+cateId+"&HasPictures="+1+"&EventVenueId="+locationID;
 				String result = Util.httpPost(url, params);
 				Message message = new Message();
 				Bundle bundle = new Bundle();
@@ -473,7 +516,7 @@ public class PublishEventActivity extends SherlockActivity {
 	@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         int reqWidth = DensityUtil.dip2px(this, 64f);
-        String imagePath=null;
+        
         if(resultCode == RESULT_OK && requestCode == 0) {
             Uri imageUri = data.getData();
             if(DocumentsContract.isDocumentUri(this, imageUri)){
@@ -508,9 +551,9 @@ public class PublishEventActivity extends SherlockActivity {
         } else if(resultCode == RESULT_OK && requestCode == 1) {
             //将保存在本地的图片取出并缩小后显示在界面上
             //String imagePath = Environment.getExternalStorageDirectory()+"/worktemp.jpg";
-            Bitmap pic = ImageUtil.decodeSampledBitmapFromPath(picPathTemp, reqWidth, reqWidth);
-            if(pic != null) {
-                eventPhotos.add(pic);
+        	Bitmap picture = ImageUtil.decodeSampledBitmapFromPath(picPathTemp, reqWidth, reqWidth);
+            if(picture != null) {
+                eventPhotos.add(picture);
                 pa.notifyDataSetChanged();
             } else {
                 Toast.makeText(this, "获取照片失败", Toast.LENGTH_SHORT).show();
