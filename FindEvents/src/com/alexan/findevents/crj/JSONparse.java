@@ -15,7 +15,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.widget.Toast;
 
 import com.alexan.findevents.AppConstant;
@@ -42,6 +44,9 @@ public class JSONparse {
 				event.setStartt(jo.getString("EventStartTime")==null?"DEFAULT":jo.getString("EventStartTime"));
 				event.setEndd(jo.getString("EventEndDate")==null?"DEFAULT":jo.getString("EventEndDate"));
 				event.setEndt(jo.getString("EventEndTime")==null?"DEFAULT":jo.getString("EventEndTime"));
+				
+				event.setCommentNum(jo.getString("NumOfComments")==null?0:Integer.parseInt(jo.getString("NumOfComments")));
+				event.setCommentNum(jo.getString("NumOfFavorites")==null?0:Integer.parseInt(jo.getString("NumOfFavorites")));
 				
 				event.setProvince(jo.getString("ProvinceName")==null?"DEFAULT":jo.getString("ProvinceName"));
 				event.setAddress(jo.getString("VenueName")==null?"DEFAULT":jo.getString("VenueName"));
@@ -72,6 +77,23 @@ public class JSONparse {
        /* try {
         	
         }*/
+	}
+	
+	public static void postComment(final Handler mHandler, final String params){
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				String url = "http://123.57.45.183/comment/PostComment";
+				String result = Util.httpPost(url, params);
+				Message message = new Message();
+				Bundle bundle = new Bundle();
+				bundle.putString("params", result);
+				message.setData(bundle);
+				mHandler.sendMessage(message);
+				
+			}
+		}).start();
 	}
 	
 	public static void refreshFrom(String url, Context context, Handler handler){
