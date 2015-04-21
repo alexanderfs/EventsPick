@@ -3,9 +3,13 @@ package com.alexan.findevents.event;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -25,6 +29,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.alexan.findevents.R;
+import com.alexan.findevents.crj.JSONparse;
 import com.alexan.findevents.dao.DBComment;
 import com.alexan.findevents.dao.DBPerson;
 import com.alexan.findevents.dao.DBPickEvent;
@@ -55,6 +60,52 @@ public class EventDetailActivity extends SherlockActivity {
 	private DBPickEvent currEvent = new DBPickEvent();
 	private boolean isFake;
 	private LinearLayout vDots;
+	private String url = "http://123.57.45.183/event/AddFavorites";
+	
+	Handler mHandler=new Handler(){  
+        @Override  
+        public void handleMessage(Message msg) {  
+            // TODO Auto-generated method stub  
+        	Bundle bundle = msg.getData();
+			String result = bundle.getString("params");
+			
+			try {
+				// 处理结果
+				JSONObject obj = new JSONObject(result);		
+				
+				String json_data = obj.getString("msg");
+	
+				if (obj.getString("code").equals("10000")) {
+					
+					Toast.makeText(EventDetailActivity.this, "收藏成功",
+							Toast.LENGTH_SHORT).show();
+					
+					DBComment dc = new DBComment();
+					dc.setEventID(currEvent.getId());
+					dc.setCommentType(2);
+					dc.setUserID(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getLong("curr_user_id", 0));
+			        String username =  PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("curr_user", "none");
+					dc.setUsername(username);
+					dc.setComentContent(username + "收藏了一个活动");
+					dc.setTimestamp(System.currentTimeMillis());
+					DBHelper.getInstance(EventDetailActivity.this).getCommentDao().insert(dc);
+					
+					currEvent.setCollectionNum((currEvent.getCollectionNum() == null ? 0 : currEvent.getCollectionNum()) + 1);
+					DBHelper.getInstance(EventDetailActivity.this).getPickEventDao().update(currEvent);
+					vOtherDetail.setText(ImageUtil.getEventOtherDetail(currEvent, EventDetailActivity.this));
+				}	
+				else{
+					Toast.makeText(EventDetailActivity.this, json_data,
+							Toast.LENGTH_SHORT).show();
+				} 
+			} catch (Exception e) {
+				Toast.makeText(EventDetailActivity.this, "错误",
+						Toast.LENGTH_SHORT).show();
+			}
+
+			super.handleMessage(msg); 
+        }         
+    };
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -229,22 +280,7 @@ public class EventDetailActivity extends SherlockActivity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				DBComment dc = new DBComment();
-				dc.setEventID(currEvent.getId());
-				dc.setCommentType(2);
-				dc.setUserID(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getLong("curr_user_id", 0));
-				/*QueryBuilder<DBPerson> qbp = DBHelper.getInstance(EventDetailActivity.this).getPersonDao()
-						.queryBuilder().where(DBPersonDao.Properties.UserID.eq(new Long(dc.getUserID())));
-				dc.setUsername(qbp.list().get(0).getNickname());*/
-		        String username =  PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("curr_user", "none");
-				dc.setUsername(username);
-				dc.setComentContent(username + "收藏了一个活动");
-				dc.setTimestamp(System.currentTimeMillis());
-				DBHelper.getInstance(EventDetailActivity.this).getCommentDao().insert(dc);
-				currEvent.setCollectionNum((currEvent.getCollectionNum() == null ? 0 : currEvent.getCollectionNum()) + 1);
-				DBHelper.getInstance(EventDetailActivity.this).getPickEventDao().update(currEvent);
-				vOtherDetail.setText(ImageUtil.getEventOtherDetail(currEvent, EventDetailActivity.this));
-				Toast.makeText(EventDetailActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
+				addFavorite();
 			}
 		});
 		vShare = findViewById(R.id.act_eventdetail_btn2);
@@ -290,6 +326,16 @@ public class EventDetailActivity extends SherlockActivity {
 	}
 	
 	
+	protected void addFavorite() {
+		// TODO Auto-generated method stub
+		
+		long userId = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getLong("curr_user_id", 0);
+		long eventID = currEvent.getId();
+		
+		String params = "UserId="+userId+"&EventId="+eventID;
+		JSONparse.postComment(mHandler, params, url);
+	}
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub

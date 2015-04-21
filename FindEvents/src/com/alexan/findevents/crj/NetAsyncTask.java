@@ -1,72 +1,103 @@
 package com.alexan.findevents.crj;
 
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import android.content.Intent;
+import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Button;
 
-import com.alexan.findevents.FrameworkActivity;
-import com.alexan.findevents.LoginActivity;
-import com.alexan.findevents.StartupActivity;
+import com.alexan.findevents.dao.DBComment;
+import com.alexan.findevents.dao.DBPickEvent;
+import com.alexan.findevents.friend.FCEntity;
+import com.alexan.findevents.friend.FriendCircleAdapter;
+import com.alexan.findevents.util.DBHelper;
 
-public class NetAsyncTask extends AsyncTask{
+public class NetAsyncTask extends AsyncTask<String, Integer, List<FCEntity>>{
 
-	private Button button;
-	private String userName;
-	private String passWord;
-	private int code;
+	private Context context;
+	private List<DBPickEvent> lsevent;
 	
-	public NetAsyncTask(Button button, String userName, String passWord, int code) {
+	public NetAsyncTask(Context context, List<DBPickEvent> lsevent) {
 		super();
-		this.button = button;
-		this.userName = userName;
-		this.passWord = passWord;
-		this.code = code;
+		this.context = context;
+		this.lsevent = lsevent;
 	}
 
 	@Override
-	protected void onPreExecute() {
-		// TODO Auto-generated method stub
-		super.onPreExecute();
-		button.setText("登录中...");
-		System.out.println("Pre");
-	}
-
-	@Override
-	protected void onPostExecute(Object result) {
+	protected void onPostExecute(List<FCEntity> result) {
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
-		//code = Integer.parseInt(result.toString());
-		System.out.println("code为"+code);
-		button.setText("登陆成功");
+		FriendCircleAdapter fca = new FriendCircleAdapter((Activity) context, result);
 	
 	}
 
 	@Override
-	protected Object doInBackground(Object... params) {
+	protected List<FCEntity> doInBackground(String... params) {
 		// TODO Auto-generated method stub
 		System.out.println("doInBack");
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
+		HttpClient client=new DefaultHttpClient();// 开启一个客户端 HTTP 请求   
+        HttpGet httpget = new HttpGet(params[0]);
+        List<FCEntity> fclist = new ArrayList<FCEntity>();
+        
+        try {
+			HttpResponse httpresponse = client.execute(httpget);
+			int code=httpresponse.getStatusLine().getStatusCode();
+			System.out.print(code);
+			//添加对code的判断
+			HttpEntity entity = httpresponse.getEntity();
+			if(entity!=null){
+				BufferedReader br = new BufferedReader(new InputStreamReader(entity.getContent()));
+				String line = null;
+				StringBuilder sb = new StringBuilder();
+				while((line = br.readLine())!=null){
+					sb.append(line);
+				}
+				br.close();
+				System.out.print(sb.toString());
+				//解析json
+				JSONObject result = new JSONObject(sb.toString());
+				JSONArray data = result.getJSONArray("data");
+				
+				for(int i = 0;i<data.length();i++){
+					try {
+						long eventId = Long.parseLong(data.getString(i));
+						DBPickEvent event = DBHelper.getInstance(context).getPickEventDao().load(eventId);
+						if(event!=null){
+							lsevent.add(event);
+						}
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				for(DBPickEvent event : lsevent){
+					DBComment comment = new DBComment();
+					FCEntity fce = new FCEntity(event, comment);
+					fclist.add(fce);
+				
+				}
+			}
+			//存放到本地数据库。
+		}  catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return userlogin(userName, passWord);
+        return fclist;
 	}
 
-	public int userlogin(String emailAddr, String password){
+	/*public int userlogin(String emailAddr, String password){
 		System.out.println("用户名密码为"+userName+passWord);
 		HttpClient hc=new DefaultHttpClient();
 		code=5;
@@ -94,5 +125,5 @@ public class NetAsyncTask extends AsyncTask{
 		}
 		
 		return 0;
-	}
+	}*/
 }

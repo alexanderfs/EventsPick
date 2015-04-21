@@ -1,18 +1,13 @@
 package com.alexan.findevents.crj;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -30,16 +25,12 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-<<<<<<< HEAD
 import android.os.Message;
-import android.widget.Toast;
-=======
-import android.util.Log;
->>>>>>> 356aa28628edff078d7b1aecdc813b3a65337b13
 
 import com.alexan.findevents.AppConstant;
 import com.alexan.findevents.dao.DBLocation;
 import com.alexan.findevents.dao.DBPickEvent;
+import com.alexan.findevents.dao.DBPickEventDao;
 import com.alexan.findevents.util.DBHelper;
 
 public class JSONparse {
@@ -100,22 +91,21 @@ public class JSONparse {
         }*/
 	}
 	
-	public static void postComment(final Handler mHandler, final String params){
+	public static void postComment(final Handler mHandler, final String params, final String url){
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				String url = "http://123.57.45.183/comment/PostComment";
 				String result = Util.httpPost(url, params);
 				Message message = new Message();
 				Bundle bundle = new Bundle();
 				bundle.putString("params", result);
 				message.setData(bundle);
 				mHandler.sendMessage(message);
-				
 			}
 		}).start();
 	}
+	
 	
 	public static void refreshFrom(String url, Context context, Handler handler){
 		HttpClient client=new DefaultHttpClient();// 开启一个客户端 HTTP 请求   
@@ -144,15 +134,57 @@ public class JSONparse {
 					//删了之前的event
 					DBHelper.getInstance(context).getPickEventDao().deleteAll();
 					JSONparse.parseEvents(data, context);
+					handler.sendEmptyMessage(1);
 				}
 				else if(url.equals("http://123.57.45.183/venue/SearchVenues")){
 					//删了之前的venue
 					DBHelper.getInstance(context).getLocationDao().deleteAll();
 					JSONparse.parseVenues(data, context);
+					handler.sendEmptyMessage(1);
 				}
+			}
+			//存放到本地数据库。
+		}  catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void parseFavorite(String url, Context context, List<DBPickEvent> lsevent){
+		HttpClient client=new DefaultHttpClient();// 开启一个客户端 HTTP 请求   
+        HttpGet httpget = new HttpGet(url);
+		
+        try {
+			HttpResponse httpresponse = client.execute(httpget);
+			int code=httpresponse.getStatusLine().getStatusCode();
+			System.out.print(code);
+			//添加对code的判断
+			HttpEntity entity = httpresponse.getEntity();
+			if(entity!=null){
+				BufferedReader br = new BufferedReader(new InputStreamReader(entity.getContent()));
+				String line = null;
+				StringBuilder sb = new StringBuilder();
+				while((line = br.readLine())!=null){
+					sb.append(line);
+				}
+				br.close();
+				System.out.print(sb.toString());
+				//解析json
+				JSONObject result = new JSONObject(sb.toString());
+				JSONArray data = result.getJSONArray("data");
 				
-				handler.sendEmptyMessage(1);
-				
+				for(int i = 0;i<data.length();i++){
+					try {
+						long eventId = Long.parseLong(data.getString(i));
+						DBPickEvent event = DBHelper.getInstance(context).getPickEventDao().load(eventId);
+						if(event!=null){
+							lsevent.add(event);
+						}
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}					
 			}
 			//存放到本地数据库。
 		}  catch (Exception e) {

@@ -23,6 +23,7 @@ import com.alexan.findevents.R;
 import com.alexan.findevents.dao.DBEvent;
 import com.alexan.findevents.dao.DBImage;
 import com.alexan.findevents.dao.DBImageDao;
+import com.alexan.findevents.dao.DBPickEvent;
 import com.alexan.findevents.event.EventDetailActivity;
 import com.alexan.findevents.util.DBHelper;
 import com.alexan.findevents.util.DensityUtil;
@@ -85,8 +86,8 @@ public class FriendCircleAdapter extends BaseAdapter {
 		} else {
 			vh = (ViewHolder) convertView.getTag();
 		}
-		DBEvent currEvent = eventList.get(position).getEvent();
-		if(currEvent.getId() != null) {
+		DBPickEvent currEvent = eventList.get(position).getEvent();
+		/*if(currEvent.getId() != null) {
 			QueryBuilder<DBImage> qbimg = DBHelper.getInstance(mCtx).getImageDao()
 					.queryBuilder().where(DBImageDao.Properties.EventID.eq(currEvent.getId()));
 			List<DBImage> dbimgList = qbimg.list();
@@ -100,12 +101,14 @@ public class FriendCircleAdapter extends BaseAdapter {
 				}
 				vh.eventImage.setImageBitmap(bm);
 			}
-		}
+		}*/
 		vh.title.setText(eventList.get(position).getEvent().getTitle());
-		vh.comment.setText(eventList.get(position).getComment().getComentContent());
+		//vh.comment.setText(eventList.get(position).getComment().getComentContent());
+		vh.comment.setText("你收藏了？");
 		vh.eventDesc.setText(eventList.get(position).getEvent().getDescription());
 		
-		Date date = new Date(eventList.get(position).getComment().getTimestamp());
+		//Date date = new Date(eventList.get(position).getComment().getTimestamp());
+		Date date = new Date();
 		
 		vh.time.setText(new SimpleDateFormat("yyyy年MM月DD日 HH:mm", Locale.CHINA).format(date));
 		vh.event.setOnClickListener(new OnClickListener() {

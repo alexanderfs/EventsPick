@@ -33,6 +33,7 @@ public class EventCommentActivity extends SherlockActivity {
 	private Button vSubmit;
 	private long eventID;
 	private DBPickEvent currEvent;
+	private String url = "http://123.57.45.183/comment/PostComment";
 
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
@@ -63,13 +64,18 @@ public class EventCommentActivity extends SherlockActivity {
 				if (obj.getString("code").equals("10000")) {
 					
 					JSONObject data = obj.getJSONObject("data");
-					long eventid = (long)data.getInt("EventId");
+					long eventid = (long)data.getInt("CommentId");
 					
 					Toast.makeText(EventCommentActivity.this, "发布成功"+eventid,
 							Toast.LENGTH_SHORT).show();
+					
+					currEvent.setCommentNum((currEvent.getCommentNum() == null ? 0 : currEvent.getCommentNum()) + 1);
+					DBHelper.getInstance(EventCommentActivity.this).getPickEventDao().update(currEvent);
+					CommentsAdapter cs = new CommentsAdapter(EventCommentActivity.this, getEventCommentList());
+					vCommentList.setAdapter(cs);
 					/*Long userID = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getLong("curr_user_id", 0);*/
 					
-					finish();
+					//finish();
 				}	
 				else{
 					Toast.makeText(EventCommentActivity.this, json_data,
@@ -126,14 +132,7 @@ public class EventCommentActivity extends SherlockActivity {
 				String params = "UserId="+userId+"&EventId="+eventID+
 						"&ParentCommentId="+0+"&CommentDetails="+vTextContent.getText().toString();
 				
-				JSONparse.postComment(mHandler, params);
-				
-				
-				currEvent.setCommentNum((currEvent.getCommentNum() == null ? 0 : currEvent.getCommentNum()) + 1);
-				DBHelper.getInstance(EventCommentActivity.this).getPickEventDao().update(currEvent);
-				CommentsAdapter cs = new CommentsAdapter(EventCommentActivity.this, getEventCommentList());
-				vCommentList.setAdapter(cs);
-				Toast.makeText(EventCommentActivity.this, "评论成功", Toast.LENGTH_SHORT).show();
+				JSONparse.postComment(mHandler, params, url);
 			}
 		});
 	}
