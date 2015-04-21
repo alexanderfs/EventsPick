@@ -28,6 +28,8 @@ import com.alexan.findevents.event.EventDetailActivity;
 import com.alexan.findevents.util.DBHelper;
 import com.alexan.findevents.util.DensityUtil;
 import com.alexan.findevents.util.ImageUtil;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import de.greenrobot.dao.query.QueryBuilder;
 
@@ -87,21 +89,20 @@ public class FriendCircleAdapter extends BaseAdapter {
 			vh = (ViewHolder) convertView.getTag();
 		}
 		DBPickEvent currEvent = eventList.get(position).getEvent();
-		/*if(currEvent.getId() != null) {
-			QueryBuilder<DBImage> qbimg = DBHelper.getInstance(mCtx).getImageDao()
-					.queryBuilder().where(DBImageDao.Properties.EventID.eq(currEvent.getId()));
-			List<DBImage> dbimgList = qbimg.list();
-			if(dbimgList.size() > 0) {
-				DBImage currImg = dbimgList.get(0);
-				Bitmap bm;
-				if((bm = getBitmapFromMemCache(currImg.getImageUrl())) == null) {
-					bm = ImageUtil.decodeSampledBitmapFromPath(currImg.getImageUrl(), DensityUtil.dip2px(mCtx, 96f), 
-							DensityUtil.dip2px(mCtx, 96f));
-					addBitmapToMemoryCache(currImg.getImageUrl(), bm);
-				}
-				vh.eventImage.setImageBitmap(bm);
-			}
-		}*/
+		String purl = currEvent.getPhoto();
+		if(purl!=null){
+			DisplayImageOptions options = new DisplayImageOptions.Builder()   
+            .cacheInMemory(true)  
+            .cacheOnDisc(true)  
+            .bitmapConfig(Bitmap.Config.RGB_565)  
+            .build();  
+      
+			ImageLoader.getInstance().displayImage(purl, vh.eventImage, options);
+		}
+		else
+			vh.eventImage.setImageResource(R.drawable.touxiang);
+		vh.image.setImageResource(R.drawable.touxiang);
+		
 		vh.title.setText(eventList.get(position).getEvent().getTitle());
 		//vh.comment.setText(eventList.get(position).getComment().getComentContent());
 		vh.comment.setText("你收藏了？");
