@@ -113,42 +113,12 @@ public class MyCollectionActivity extends SherlockActivity {
 			}
 		});
 	}
-	
-	private List<FCEntity> getFCEventList() {
-		// TODO Auto-generated method stub
-		List<FCEntity> fclist = new ArrayList<FCEntity>();
-		if(eventlist==null){
-			eventlist = getEventList();
-		}
-		for(DBPickEvent event : eventlist){
-			DBComment comment = new DBComment();
-			FCEntity fce = new FCEntity(event, comment);
-			fclist.add(fce);
-		
-		}
-		return fclist;
-	}
 
 	private List<FCEntity> eventList;
 	
 	private long getUserID() {
 		return PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getLong("curr_user_id", 0);
-	}
-	
-	private List<DBPickEvent> getEventList() {
-		final List<DBPickEvent> lsevent = new ArrayList<DBPickEvent>();
-		new Thread(){
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				String url = "http://123.57.45.183/event/GetFavorites?UserId="+getUserID();
-				//从服务器获得数据。
-				JSONparse.parseFavorite(url,  MyCollectionActivity.this, lsevent);
-			}			
-		}.start();
-		
-		return lsevent;
-	}
+	}   
 	
 	private class MyTask extends AsyncTask<String, Integer, List<FCEntity>>{
 
