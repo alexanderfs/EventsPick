@@ -55,7 +55,7 @@ public class JSONparse {
 				event.setEndt(jo.getString("EventEndTime")==null?"DEFAULT":jo.getString("EventEndTime"));
 				
 				event.setCommentNum(jo.getString("NumOfComments")==null?0:Integer.parseInt(jo.getString("NumOfComments")));
-				event.setCommentNum(jo.getString("NumOfFavorites")==null?0:Integer.parseInt(jo.getString("NumOfFavorites")));
+				event.setCollectionNum(jo.getString("NumOfFavorites")==null?0:Integer.parseInt(jo.getString("NumOfFavorites")));
 				
 				event.setProvince(jo.getString("ProvinceName")==null?"DEFAULT":jo.getString("ProvinceName"));
 				event.setAddress(jo.getString("VenueName")==null?"DEFAULT":jo.getString("VenueName"));
