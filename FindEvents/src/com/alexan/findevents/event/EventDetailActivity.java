@@ -378,7 +378,7 @@ public class EventDetailActivity extends SherlockActivity {
 				ImageView iv = (ImageView) currView.findViewById(R.id.list_it_icon);
 				iv.setImageResource(R.drawable.item_time);
 				TextView tv = (TextView) currView.findViewById(R.id.list_it_desc);
-				tv.setText("【时间】："+currEvent.getStartt()+"-"+currEvent.getEndt());
+				tv.setText("【时间】 "+currEvent.getStartt()+"-"+currEvent.getEndt());
 			}
 				break;
 			case 1: {
@@ -436,12 +436,13 @@ public class EventDetailActivity extends SherlockActivity {
 				if(currEvent.getId() == null) {
 					tv.setText("DEFAULT USER");
 				} else {
-					DBPerson p = DBHelper.getInstance(EventDetailActivity.this).getPersonDao().loadByRowId(currEvent.getUserID());
+					/*DBPerson p = DBHelper.getInstance(EventDetailActivity.this).getPersonDao().loadByRowId(currEvent.getUserID());
 					if(p != null) {
 						tv.setText("【发布人】 "+p.getNickname());
 					} else {
 						tv.setText("【发布人】 load error");
-					}
+					}*/
+					tv.setText("【发布人】 "+currEvent.getAuthor());
 				}
 				
 			} 

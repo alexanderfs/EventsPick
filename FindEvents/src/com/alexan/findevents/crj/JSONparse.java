@@ -47,12 +47,18 @@ public class JSONparse {
 				event.setDescription(jo.getString("EventDescription"));
 				event.setTitle(jo.getString("EventTitle"));
 				event.setUserID(Long.parseLong(jo.getString("UserId")));
+				event.setAuthor(jo.getString("EventAuthor").equals("")?"匿名":jo.getString("EventAuthor"));
 				event.setCatagory(jo.getString("EventCategoryName")==null?"DEFAULT":jo.getString("EventCategoryName"));
 				
 				event.setStartd(jo.getString("EventStartDate")==null?"DEFAULT":jo.getString("EventStartDate"));
-				event.setStartt(jo.getString("EventStartTime")==null?"DEFAULT":jo.getString("EventStartTime"));
 				event.setEndd(jo.getString("EventEndDate")==null?"DEFAULT":jo.getString("EventEndDate"));
-				event.setEndt(jo.getString("EventEndTime")==null?"DEFAULT":jo.getString("EventEndTime"));
+
+				String startTime = jo.getString("EventStartTime");
+				startTime = startTime.substring(0, startTime.lastIndexOf(":"));
+				String endTime = jo.getString("EventEndTime");
+				endTime = endTime.substring(0, endTime.lastIndexOf(":"));
+				event.setStartt(startTime);
+				event.setEndt(endTime);
 				
 				event.setCommentNum(jo.getString("NumOfComments")==null?0:Integer.parseInt(jo.getString("NumOfComments")));
 				event.setCollectionNum(jo.getString("NumOfFavorites")==null?0:Integer.parseInt(jo.getString("NumOfFavorites")));

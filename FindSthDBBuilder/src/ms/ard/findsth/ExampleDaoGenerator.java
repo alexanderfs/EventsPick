@@ -129,7 +129,7 @@ public class ExampleDaoGenerator {
     	Entity pickEvent = schema.addEntity("DBPickEvent");
     	pickEvent.addIdProperty();
     	pickEvent.addLongProperty("userID");
-    	
+    	pickEvent.addStringProperty("author");
     	pickEvent.addStringProperty("title");
     	pickEvent.addStringProperty("description");
     	pickEvent.addStringProperty("address");

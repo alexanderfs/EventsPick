@@ -8,6 +8,7 @@ public class DBPickEvent {
 
     private Long id;
     private Long userID;
+    private String author;
     private String title;
     private String description;
     private String address;
@@ -31,9 +32,10 @@ public class DBPickEvent {
         this.id = id;
     }
 
-    public DBPickEvent(Long id, Long userID, String title, String description, String address, String province, String city, String addressdetail, String photo, String startt, String endt, String startd, String endd, Integer collectionNum, Integer attendNum, Integer commentNum, String catagory) {
+    public DBPickEvent(Long id, Long userID, String author, String title, String description, String address, String province, String city, String addressdetail, String photo, String startt, String endt, String startd, String endd, Integer collectionNum, Integer attendNum, Integer commentNum, String catagory) {
         this.id = id;
         this.userID = userID;
+        this.author = author;
         this.title = title;
         this.description = description;
         this.address = address;
@@ -65,6 +67,14 @@ public class DBPickEvent {
 
     public void setUserID(Long userID) {
         this.userID = userID;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getTitle() {

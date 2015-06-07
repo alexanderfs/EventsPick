@@ -25,21 +25,22 @@ public class DBPickEventDao extends AbstractDao<DBPickEvent, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property UserID = new Property(1, Long.class, "userID", false, "USER_ID");
-        public final static Property Title = new Property(2, String.class, "title", false, "TITLE");
-        public final static Property Description = new Property(3, String.class, "description", false, "DESCRIPTION");
-        public final static Property Address = new Property(4, String.class, "address", false, "ADDRESS");
-        public final static Property Province = new Property(5, String.class, "province", false, "PROVINCE");
-        public final static Property City = new Property(6, String.class, "city", false, "CITY");
-        public final static Property Addressdetail = new Property(7, String.class, "addressdetail", false, "ADDRESSDETAIL");
-        public final static Property Photo = new Property(8, String.class, "photo", false, "PHOTO");
-        public final static Property Startt = new Property(9, String.class, "startt", false, "STARTT");
-        public final static Property Endt = new Property(10, String.class, "endt", false, "ENDT");
-        public final static Property Startd = new Property(11, String.class, "startd", false, "STARTD");
-        public final static Property Endd = new Property(12, String.class, "endd", false, "ENDD");
-        public final static Property CollectionNum = new Property(13, Integer.class, "collectionNum", false, "COLLECTION_NUM");
-        public final static Property AttendNum = new Property(14, Integer.class, "attendNum", false, "ATTEND_NUM");
-        public final static Property CommentNum = new Property(15, Integer.class, "commentNum", false, "COMMENT_NUM");
-        public final static Property Catagory = new Property(16, String.class, "catagory", false, "CATAGORY");
+        public final static Property Author = new Property(2, String.class, "author", false, "AUTHOR");
+        public final static Property Title = new Property(3, String.class, "title", false, "TITLE");
+        public final static Property Description = new Property(4, String.class, "description", false, "DESCRIPTION");
+        public final static Property Address = new Property(5, String.class, "address", false, "ADDRESS");
+        public final static Property Province = new Property(6, String.class, "province", false, "PROVINCE");
+        public final static Property City = new Property(7, String.class, "city", false, "CITY");
+        public final static Property Addressdetail = new Property(8, String.class, "addressdetail", false, "ADDRESSDETAIL");
+        public final static Property Photo = new Property(9, String.class, "photo", false, "PHOTO");
+        public final static Property Startt = new Property(10, String.class, "startt", false, "STARTT");
+        public final static Property Endt = new Property(11, String.class, "endt", false, "ENDT");
+        public final static Property Startd = new Property(12, String.class, "startd", false, "STARTD");
+        public final static Property Endd = new Property(13, String.class, "endd", false, "ENDD");
+        public final static Property CollectionNum = new Property(14, Integer.class, "collectionNum", false, "COLLECTION_NUM");
+        public final static Property AttendNum = new Property(15, Integer.class, "attendNum", false, "ATTEND_NUM");
+        public final static Property CommentNum = new Property(16, Integer.class, "commentNum", false, "COMMENT_NUM");
+        public final static Property Catagory = new Property(17, String.class, "catagory", false, "CATAGORY");
     };
 
 
@@ -57,21 +58,22 @@ public class DBPickEventDao extends AbstractDao<DBPickEvent, Long> {
         db.execSQL("CREATE TABLE " + constraint + "'DBPICK_EVENT' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'USER_ID' INTEGER," + // 1: userID
-                "'TITLE' TEXT," + // 2: title
-                "'DESCRIPTION' TEXT," + // 3: description
-                "'ADDRESS' TEXT," + // 4: address
-                "'PROVINCE' TEXT," + // 5: province
-                "'CITY' TEXT," + // 6: city
-                "'ADDRESSDETAIL' TEXT," + // 7: addressdetail
-                "'PHOTO' TEXT," + // 8: photo
-                "'STARTT' TEXT," + // 9: startt
-                "'ENDT' TEXT," + // 10: endt
-                "'STARTD' TEXT," + // 11: startd
-                "'ENDD' TEXT," + // 12: endd
-                "'COLLECTION_NUM' INTEGER," + // 13: collectionNum
-                "'ATTEND_NUM' INTEGER," + // 14: attendNum
-                "'COMMENT_NUM' INTEGER," + // 15: commentNum
-                "'CATAGORY' TEXT);"); // 16: catagory
+                "'AUTHOR' TEXT," + // 2: author
+                "'TITLE' TEXT," + // 3: title
+                "'DESCRIPTION' TEXT," + // 4: description
+                "'ADDRESS' TEXT," + // 5: address
+                "'PROVINCE' TEXT," + // 6: province
+                "'CITY' TEXT," + // 7: city
+                "'ADDRESSDETAIL' TEXT," + // 8: addressdetail
+                "'PHOTO' TEXT," + // 9: photo
+                "'STARTT' TEXT," + // 10: startt
+                "'ENDT' TEXT," + // 11: endt
+                "'STARTD' TEXT," + // 12: startd
+                "'ENDD' TEXT," + // 13: endd
+                "'COLLECTION_NUM' INTEGER," + // 14: collectionNum
+                "'ATTEND_NUM' INTEGER," + // 15: attendNum
+                "'COMMENT_NUM' INTEGER," + // 16: commentNum
+                "'CATAGORY' TEXT);"); // 17: catagory
     }
 
     /** Drops the underlying database table. */
@@ -95,79 +97,84 @@ public class DBPickEventDao extends AbstractDao<DBPickEvent, Long> {
             stmt.bindLong(2, userID);
         }
  
+        String author = entity.getAuthor();
+        if (author != null) {
+            stmt.bindString(3, author);
+        }
+ 
         String title = entity.getTitle();
         if (title != null) {
-            stmt.bindString(3, title);
+            stmt.bindString(4, title);
         }
  
         String description = entity.getDescription();
         if (description != null) {
-            stmt.bindString(4, description);
+            stmt.bindString(5, description);
         }
  
         String address = entity.getAddress();
         if (address != null) {
-            stmt.bindString(5, address);
+            stmt.bindString(6, address);
         }
  
         String province = entity.getProvince();
         if (province != null) {
-            stmt.bindString(6, province);
+            stmt.bindString(7, province);
         }
  
         String city = entity.getCity();
         if (city != null) {
-            stmt.bindString(7, city);
+            stmt.bindString(8, city);
         }
  
         String addressdetail = entity.getAddressdetail();
         if (addressdetail != null) {
-            stmt.bindString(8, addressdetail);
+            stmt.bindString(9, addressdetail);
         }
  
         String photo = entity.getPhoto();
         if (photo != null) {
-            stmt.bindString(9, photo);
+            stmt.bindString(10, photo);
         }
  
         String startt = entity.getStartt();
         if (startt != null) {
-            stmt.bindString(10, startt);
+            stmt.bindString(11, startt);
         }
  
         String endt = entity.getEndt();
         if (endt != null) {
-            stmt.bindString(11, endt);
+            stmt.bindString(12, endt);
         }
  
         String startd = entity.getStartd();
         if (startd != null) {
-            stmt.bindString(12, startd);
+            stmt.bindString(13, startd);
         }
  
         String endd = entity.getEndd();
         if (endd != null) {
-            stmt.bindString(13, endd);
+            stmt.bindString(14, endd);
         }
  
         Integer collectionNum = entity.getCollectionNum();
         if (collectionNum != null) {
-            stmt.bindLong(14, collectionNum);
+            stmt.bindLong(15, collectionNum);
         }
  
         Integer attendNum = entity.getAttendNum();
         if (attendNum != null) {
-            stmt.bindLong(15, attendNum);
+            stmt.bindLong(16, attendNum);
         }
  
         Integer commentNum = entity.getCommentNum();
         if (commentNum != null) {
-            stmt.bindLong(16, commentNum);
+            stmt.bindLong(17, commentNum);
         }
  
         String catagory = entity.getCatagory();
         if (catagory != null) {
-            stmt.bindString(17, catagory);
+            stmt.bindString(18, catagory);
         }
     }
 
@@ -183,21 +190,22 @@ public class DBPickEventDao extends AbstractDao<DBPickEvent, Long> {
         DBPickEvent entity = new DBPickEvent( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // userID
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // title
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // description
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // address
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // province
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // city
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // addressdetail
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // photo
-            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // startt
-            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // endt
-            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // startd
-            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // endd
-            cursor.isNull(offset + 13) ? null : cursor.getInt(offset + 13), // collectionNum
-            cursor.isNull(offset + 14) ? null : cursor.getInt(offset + 14), // attendNum
-            cursor.isNull(offset + 15) ? null : cursor.getInt(offset + 15), // commentNum
-            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16) // catagory
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // author
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // title
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // description
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // address
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // province
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // city
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // addressdetail
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // photo
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // startt
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // endt
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // startd
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // endd
+            cursor.isNull(offset + 14) ? null : cursor.getInt(offset + 14), // collectionNum
+            cursor.isNull(offset + 15) ? null : cursor.getInt(offset + 15), // attendNum
+            cursor.isNull(offset + 16) ? null : cursor.getInt(offset + 16), // commentNum
+            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17) // catagory
         );
         return entity;
     }
@@ -207,21 +215,22 @@ public class DBPickEventDao extends AbstractDao<DBPickEvent, Long> {
     public void readEntity(Cursor cursor, DBPickEvent entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setUserID(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
-        entity.setTitle(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setDescription(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setAddress(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setProvince(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setCity(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setAddressdetail(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setPhoto(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
-        entity.setStartt(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
-        entity.setEndt(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
-        entity.setStartd(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
-        entity.setEndd(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
-        entity.setCollectionNum(cursor.isNull(offset + 13) ? null : cursor.getInt(offset + 13));
-        entity.setAttendNum(cursor.isNull(offset + 14) ? null : cursor.getInt(offset + 14));
-        entity.setCommentNum(cursor.isNull(offset + 15) ? null : cursor.getInt(offset + 15));
-        entity.setCatagory(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
+        entity.setAuthor(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setTitle(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setDescription(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setAddress(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setProvince(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setCity(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setAddressdetail(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setPhoto(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setStartt(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setEndt(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setStartd(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setEndd(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setCollectionNum(cursor.isNull(offset + 14) ? null : cursor.getInt(offset + 14));
+        entity.setAttendNum(cursor.isNull(offset + 15) ? null : cursor.getInt(offset + 15));
+        entity.setCommentNum(cursor.isNull(offset + 16) ? null : cursor.getInt(offset + 16));
+        entity.setCatagory(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
      }
     
     /** @inheritdoc */

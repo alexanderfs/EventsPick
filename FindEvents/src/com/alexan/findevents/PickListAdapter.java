@@ -108,7 +108,8 @@ public class PickListAdapter extends BaseAdapter{
 		
 		String tmp = currEvent.getTitle();
 		vh.title.setText(tmp == null ? "DEFAULT TITLE" : tmp);
-		String date = currEvent.getStartd()+"-"+currEvent.getEndd();
+		String date = currEvent.getStartd()+" to "+currEvent.getEndd();
+		
 		String time = currEvent.getStartt()+"-"+currEvent.getEndt();
 		
 		vh.time.setText(date+", "+time);
