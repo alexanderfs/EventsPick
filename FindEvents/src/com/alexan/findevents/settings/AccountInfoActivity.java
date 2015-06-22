@@ -1,11 +1,13 @@
 package com.alexan.findevents.settings;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +16,8 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.alexan.findevents.FrameworkActivity;
 import com.alexan.findevents.R;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class AccountInfoActivity extends SherlockActivity {
 	
@@ -69,6 +73,14 @@ public class AccountInfoActivity extends SherlockActivity {
 				
 			}
 		});
+		ImageView touxiang = (ImageView)findViewById(R.id.touxiang);
+		DisplayImageOptions options = new DisplayImageOptions.Builder()   
+        .cacheInMemory(true)  
+        .cacheOnDisc(true)  
+        .bitmapConfig(Bitmap.Config.RGB_565)  
+        .build();  
+  
+		/*ImageLoader.getInstance().displayImage(photoUrl, touxiang, options);*/
 		vChangePwd = (Button) findViewById(R.id.act_accountinfo_logout);
 		vChangePwd.setOnClickListener(new OnClickListener() {
 			

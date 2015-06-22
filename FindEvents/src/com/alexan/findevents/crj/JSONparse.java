@@ -156,6 +156,7 @@ public class JSONparse {
 		}
 	}
 	
+	
 	public static void parseFavorite(String url, Context context, List<DBPickEvent> lsevent){
 		HttpClient client=new DefaultHttpClient();// 开启一个客户端 HTTP 请求   
         HttpGet httpget = new HttpGet(url);

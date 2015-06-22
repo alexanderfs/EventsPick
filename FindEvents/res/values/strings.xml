@@ -3,7 +3,7 @@
 
     <drawable name="clr_normal">#ff6501</drawable>
  	<drawable name="clr_pressed">#a44100</drawable>
-    <string name="app_name">FindEvents</string>
+    <string name="app_name">别拉下</string>
     <string name="pickp">选择省份</string>
     <string name="pickc">选择城市</string>
     <string name="action_settings">Settings</string>
